@@ -1,0 +1,93 @@
+<configuration>
+
+	<property name="LOG_DIR" value="${INFINITUM_HOME}/logs" />
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%date{HH:mm:ss.SSS} %-32([%thread]) %-5level %logger{100} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_DIR}/infinitum.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_DIR}/infinitum.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy	class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>25MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>14</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%date %-4relative %-32([%thread]) %-5level %logger{100} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE-ERRORS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_DIR}/infinitum-errors.log</file>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_DIR}/infinitum-errors.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy	class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>25MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>14</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%date %-4relative %-32([%thread]) %-5level %logger{100} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE-ACTIONS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_DIR}/infinitum-actions.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_DIR}/infinitum-actions.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy	class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>25MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>14</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%date %-4relative %-32([%thread]) %-5level %logger{100} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE-WRITER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_DIR}/infinitum-writer.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_DIR}/infinitum-writer.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy	class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>25MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>14</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%date %-4relative %-32([%thread]) %-5level %logger{100} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- LOG ALL ACTIONS ADDITIONALY TO A SEPERATE FILE -->
+	<logger name="de.swoeste.infinitum.fw.core.bl.svn.indexer.action" level="INFO">
+		<appender-ref ref="FILE-ACTIONS" />
+	</logger>
+
+	<!-- LOG ALL WRITER INFORMATION ADDITIONALY TO A SEPERATE FILE -->
+	<logger name="de.swoeste.infinitum.fw.core.bl.svn.indexer.SVNIndexWriter" level="DEBUG">
+		<appender-ref ref="FILE-WRITER" />
+	</logger>
+
+	<logger name="de.swoeste.infinitum" level="DEBUG"/>
+
+	<root level="INFO">
+		<appender-ref ref="FILE" />
+		<appender-ref ref="FILE-ERRORS" />
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</configuration>

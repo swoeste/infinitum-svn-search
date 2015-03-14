@@ -1,0 +1,113 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html" 
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <div class="helpTitle">Search Engine</div>
+    <div class="helpBody">SVN Search is based on the Apache Lucene Search Engine, so you could use most of the features provided by it in your search query.</div>
+        
+    <div class="helpTitle">Fields</div>    
+    <div class="helpBody">
+        When performing a search you can either specify a field, or use the default field (FILE_CONTENT). 
+        You can search any field by typing the field name followed by a colon ":" and then the term you are looking for.
+        If you want to find the file entitled "Fairy Tales" which contains the text "little red riding hood", you can enter:
+        <div class="exampleBlock">FILE_NAME:"Fairy Tales" AND FILE_CONTENT:"little red riding hood"</div>    
+        <div class="exampleBlock">FILE_NAME:"Fairy Tales" AND little red riding hood</div>
+        Since FILE_CONTENT is the default field, the field indicator is not required.
+        Note: The field is only valid for the term that it directly precedes, so following query will only find "Fairy" in the FILE_NAME field and "Tales" in the default field.
+        <div class="exampleBlock">FILE_NAME:Fairy Tales</div>
+    </div>
+    
+    <div class="helpTitle">Available Fields</div>           
+    <div class="helpBody">
+        <ul>
+            <li>ID</li>
+            <li>FILE_NAME</li>
+            <li>FILE_CONTENT</li>
+            <li>FILE_TYPE</li>
+            <li>CREATED_REVISION</li>
+            <li>CREATED_DATE</li>
+            <li>CREATED_AUTHOR</li>
+            <li>UPDATED</li>
+            <li>UPDATE_REVISION</li>
+            <li>UPDATE_DATE</li>
+            <li>UPDATE_AUTHOR</li>    
+        </ul>
+    </div>
+    
+    <div class="helpTitle">Wildcard Searches</div>
+    <div class="helpBody">        
+        To perform a single character wildcard search use the "?" symbol.
+        To perform a multiple character wildcard search use the "*" symbol.        
+        The single character wildcard search looks for terms that match that with the single character replaced. 
+        For example, to search for "text" or "test" you can use the search:
+        <div class="exampleBlock">te?t</div>
+        Multiple character wildcard searches looks for 0 or more characters.
+        For example, to search for test, tests or tester, you can use the search:
+        <div class="exampleBlock">test*</div>
+        You can also use the wildcard searches in the middle of a term.
+        <div class="exampleBlock">te*t</div>
+        Note: You cannot use a * or ? symbol as the first character of a search.
+    </div>
+
+    <div class="helpTitle">Boolean Operators</div>
+    <div class="helpBody">
+        Boolean operators allow terms to be combined through logic operators (Note: Boolean operators must be ALL CAPS).        
+
+        <br/><br/><B>OR</B><br/>
+        The OR operator is the default conjunction operator. 
+        This means that if there is no Boolean operator between two terms, the OR operator is used. 
+        The OR operator links two terms and finds a matching document if either of the terms exist in a document. 
+        The symbol || can be used in place of the word OR.
+        To search for documents that contain either "fabulous unicorn" or just "unicorn" use the query:
+        <div class="exampleBlock">"fabulous unicorn" unicorn</div>
+        or
+        <div class="exampleBlock">"fabulous unicorn" OR unicorn</div>
+
+        <br/><br/><B>AND</B><br/>
+        The AND operator matches documents where both terms exist anywhere in the text of a single document. 
+        The symbol &amp;&amp; can be used in place of the word AND.
+        To search for documents that contain "fabulous unicorn" and "mythical eagle" use the query:
+        <div class="exampleBlock">"fabulous unicorn" AND "mythical eagle"</div>
+
+        <br/><br/><B>+</B><br/>
+        The "+" or required operator requires that the term after the "+" symbol exist somewhere in a the field of a single document.
+        To search for documents that must contain "fabulous" and may contain "unicorn" use the query:
+        <div class="exampleBlock">+fabulous unicorn</div>
+
+        <br/><br/><b>NOT</b><br/>
+        The NOT operator excludes documents that contain the term after NOT. 
+        The symbol ! can be used in place of the word NOT.
+        To search for documents that contain "fabulous unicorn" but not "mythical eagle" use the query:
+        <div class="exampleBlock">"fabulous unicorn" NOT "mythical eagle"</div>
+        Note: The NOT operator cannot be used with just one term. For example, the following search will return no results:
+        <div class="exampleBlock">NOT "mythical eagle"</div>
+
+        <br/><br/><b>-</b><br/>
+        The "-" or prohibit operator excludes documents that contain the term after the "-" symbol.
+        To search for documents that contain "fabulous unicorn" but not "mythical eagle" use the query:
+        <div class="exampleBlock">"fabulous unicorn" -"mythical eagle"</div>
+        
+    </div>
+    
+    <div class="helpTitle">Grouping</div>
+    <div class="helpBody">    
+        You could use parentheses to group clauses to form sub queries. 
+        This can be very useful if you want to control the boolean logic for a query.
+        To search for either "fabulous" or "mythical" and "unicorn" use the query:
+        <div class="exampleBlock">(fabulous OR mythical) AND unicorn</div>
+        This eliminates any confusion and makes sure that "unicorn" must exist and either the term "fabulous" or "mythical" may exist.
+    </div>
+
+    <div class="helpTitle">Escaping Special Characters</div>
+    <div class="helpBody">        
+        The following characters are treated as special characters and may be escaped if used as part of a search query.        
+        <div class="exampleBlock">+ - &amp;&amp; || ! ( ) { } [ ] ^ " ~ * ? : \</div>        
+        To escape these character use a \ before the character.<br/> 
+        For example to search for (1+1):2 use the query:    
+        <div class="exampleBlock">\(1\+1\)\:2</div>
+    </div>
+
+</ui:composition>

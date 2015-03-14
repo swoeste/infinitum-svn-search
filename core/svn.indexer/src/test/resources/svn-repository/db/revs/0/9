@@ -1,0 +1,41 @@
+id: 0-9.0.r9/0
+type: dir
+count: 0
+cpath: /ERROR
+copyroot: 0 /
+
+PLAIN
+K 6
+CREATE
+V 17
+dir 0-1.0.r1/3052
+K 5
+ERROR
+V 14
+dir 0-9.0.r9/0
+K 6
+IGNORE
+V 16
+dir 0-4.0.r4/930
+K 13
+SINGLE_DELETE
+V 16
+dir 0-6.0.r8/147
+K 6
+UPDATE
+V 17
+dir b-1.0.r5/1135
+END
+ENDREP
+id: 0.0.r9/252
+type: dir
+pred: 0.0.r8/449
+count: 9
+text: 9 63 176 0 f50cb59400149c31574579bdbbbd1a4a
+cpath: /
+copyroot: 0 /
+
+_0.0.t8-8 add-dir false false /ERROR
+
+
+252 377

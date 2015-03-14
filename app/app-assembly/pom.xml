@@ -1,0 +1,173 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Parent -->
+	<parent>
+		<groupId>de.swoeste.infinitum.app</groupId>
+		<artifactId>infinitum-svn-search.app-aggr</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<!-- Project -->
+	<groupId>de.swoeste.infinitum-svn-search.app</groupId>
+	<artifactId>app-assembly</artifactId>
+	<packaging>pom</packaging>
+
+	<!-- Dependencies -->
+	<dependencies>
+
+		<!-- Infinitum -->			
+		<dependency>
+			<groupId>de.swoeste.infinitum-svn-search.core</groupId>
+			<artifactId>server.runtime</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.swoeste.infinitum-svn-search.app</groupId>
+			<artifactId>app-war</artifactId>	
+			<version>${project.version}</version>
+			<type>war</type>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- 3rd Party -->
+
+		<!-- Service Wrapper -->
+		<dependency>
+			<groupId>tanukisoft</groupId>
+			<artifactId>wrapper</artifactId>
+		</dependency>
+
+		<!-- Logging Impl -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<!-- Build -->
+	<build>
+		<finalName>infinitum</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.8</version>
+				<executions>
+					<!-- Unpack War -->
+					<execution>
+						<id>unpack-war</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>de.swoeste.infinitum-svn-search.app</groupId>
+									<artifactId>app-war</artifactId>
+									<version>${project.version}</version>
+									<type>war</type>
+									<outputDirectory>${project.build.directory}/bundle/war</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>					
+					<!-- Unpack War -->
+					<execution>
+						<id>unpack-properties</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>de.swoeste.infinitum-svn-search.app</groupId>
+									<artifactId>app-properties</artifactId>
+									<version>${project.version}</version>
+									<outputDirectory>${project.build.directory}/bundle/conf</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+							<excludes>META-INF/**</excludes>
+						</configuration>
+					</execution>					
+					<!-- Copy Server -->
+					<execution>
+						<id>copy-server</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/bundle/lib</outputDirectory>
+							<excludeTransitive>false</excludeTransitive>
+							<includeScope>runtime</includeScope>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<!-- Copy Configuration -->
+					<execution>
+						<id>1</id>
+						<phase>prepare-package</phase>
+						<configuration>
+							<target>
+								<copy todir="${project.build.directory}/bundle">
+									<fileset dir="${basedir}/src/main/resources" />
+								</copy>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					<!-- Bundle -->
+					<execution>
+						<id>2</id>
+						<phase>package</phase>
+						<configuration>
+							<target>
+								<zip destfile="${project.build.directory}/infinitum.zip" basedir="${project.build.directory}/bundle" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<!-- Add archive to maven artifact. -->
+					<execution>
+						<id>attach-artifacts</id>
+						<phase>install</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>${project.build.directory}/infinitum.zip</file>
+									<type>zip</type>
+									<classifier>zip</classifier>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+	xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<import resource="classpath:META-INF/de/swoeste/infinitum/infinitum-web-war-aliases.xml" />
+
+    <!-- Services -->
+	<bean id="svn.indexer.ControllerBean" class="de.swoeste.infinitum.application.svn.indexer.beans.ControllerBean" scope="session" >	
+		<property name="svnIndexFacade" ref="fw.core.bl.svn.indexer.SVNIndexFacadeBean"/>
+	</bean>
+    
+    <!-- Jobs -->
+    <bean id="svn.indexer.jobs.CreateOrUpdateIndexJob" class="de.swoeste.infinitum.application.svn.indexer.jobs.CreateOrUpdateIndexJob" scope="singleton" >   
+        <property name="svnIndexFacade" ref="fw.core.bl.svn.indexer.SVNIndexFacadeBean"/>
+    </bean>
+    
+    <!-- Jobs (Details) -->    
+    <bean id="svn.indexer.jobs.CreateOrUpdateIndexJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="svn.indexer.jobs.CreateOrUpdateIndexJob" />
+        <property name="targetMethod" value="execute" />
+    </bean>
+    
+    <!-- Trigger -->
+    <bean id="svn.indexer.jobs.CreateOrUpdateIndexJobDetailTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="svn.indexer.jobs.CreateOrUpdateIndexJobDetail" />
+        <property name="cronExpression" value="0 0/5 * * * ?" />
+    </bean>
+        
+    <!-- Sheduler -->
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="quartzProperties">
+            <map>
+                <entry key="org.quartz.scheduler.skipUpdateCheck" value="true" />
+                <entry key="org.quartz.scheduler.instanceName" value="Infinitum-Scheduler" />
+                <entry key="org.quartz.jobStore.class" value="org.quartz.simpl.RAMJobStore" />
+                <entry key="org.quartz.threadPool.class" value="org.quartz.simpl.SimpleThreadPool" />
+                <entry key="org.quartz.threadPool.threadCount" value="5" />
+                <entry key="org.quartz.threadPool.threadPriority"  value="5" />
+            </map>
+        </property>
+        <property name="triggers">
+            <list>
+                <ref bean="svn.indexer.jobs.CreateOrUpdateIndexJobDetailTrigger" />
+            </list>
+        </property>
+    </bean>
+    
+</beans>

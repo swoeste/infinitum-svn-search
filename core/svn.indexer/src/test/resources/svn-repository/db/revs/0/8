@@ -1,0 +1,54 @@
+PLAIN
+K 16
+TestFile5.ignore
+V 17
+file 2-6.0.r6/242
+K 14
+TestFile5.java
+V 17
+file 4-6.0.r6/617
+K 13
+TestFile5.txt
+V 17
+file 5-6.0.r6/432
+END
+ENDREP
+id: 0-6.0.r8/147
+type: dir
+pred: 0-6.0.r7/454
+count: 2
+text: 8 0 134 134 b6f328c5f5bf906f029f2c30b6bf896b
+cpath: /SINGLE_DELETE
+copyroot: 0 /
+
+PLAIN
+K 6
+CREATE
+V 17
+dir 0-1.0.r1/3052
+K 6
+IGNORE
+V 16
+dir 0-4.0.r4/930
+K 13
+SINGLE_DELETE
+V 16
+dir 0-6.0.r8/147
+K 6
+UPDATE
+V 17
+dir b-1.0.r5/1135
+END
+ENDREP
+id: 0.0.r8/449
+type: dir
+pred: 0.0.r7/758
+count: 8
+text: 8 290 146 146 c32860d6ef8a74714c78aa9301dae5b5
+cpath: /
+copyroot: 0 /
+
+1-7.0.r7/76 delete-file false false /SINGLE_DELETE/TestFile5.delete
+
+
+449 577

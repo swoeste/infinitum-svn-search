@@ -1,0 +1,21 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html" 
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <div class="searchElement centerElement">
+
+        <p:inputText styleClass="centerElement" value="#{svnIndexerControllerBean.searchText}" size="50" autocomplete="true" />
+
+        <h:commandLink id="searchCommand" action="result">
+            <p:graphicImage styleClass="centerElement" library="default" name="icons/search.png" />
+        </h:commandLink>
+
+        <h:commandButton id="submitButton" styleClass="hidden" action="result" actionListener="#{svnIndexerControllerBean.search}" />
+        <p:defaultCommand target="submitButton" />
+
+    </div>
+
+</ui:composition>

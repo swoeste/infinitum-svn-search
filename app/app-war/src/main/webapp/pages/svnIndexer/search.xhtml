@@ -1,0 +1,41 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html" 
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui" 
+    template="/templates/base-template.xhtml">
+
+    <ui:define name="content">
+
+        <div class="searchContainer">
+            <div>
+                <p:graphicImage id="logoSearch" library="default" name="logos/svn-search.png" />
+            </div>
+            <ui:include src="/includes/svnIndexer/searchElement.xhtml" />
+        </div>
+
+        <div class="additionalInformation">
+
+            <p:commandLink id="help" styleClass="informationWithBorder" onclick="PF('helpDialog').show();">#{msg.infinitum_svn_indexer_search_help}</p:commandLink>
+            <p:tooltip for="help" value="#{msg.infinitum_svn_indexer_search_help_tooltip}" />
+
+            <p:commandLink id="status" styleClass="information" onclick="PF('statusDialog').show();">#{msg.infinitum_svn_indexer_search_status}</p:commandLink>
+            <p:tooltip for="status" value="#{msg.infinitum_svn_indexer_search_status_tooltip}" />
+
+            <h:outputLink id="report" styleClass="ui-widget informationWithBorder" value="https://code.google.com/p/svn-search/issues/entry" target="_blank">#{msg.infinitum_svn_indexer_search_reportAProblem}</h:outputLink>
+            <p:tooltip for="report" value="#{msg.infinitum_svn_indexer_search_reportAProblem_tooltip}" />
+
+        </div>
+
+        <p:dialog id="helpDialog" header="#{msg.infinitum_svn_indexer_search_help}" widgetVar="helpDialog" closeOnEscape="true" width="650" height="400" >
+             <ui:include src="/includes/svnIndexer/helpElement.xhtml" />       
+        </p:dialog>
+
+        <p:dialog id="statusDialog" header="#{msg.infinitum_svn_indexer_search_status}" widgetVar="statusDialog" closeOnEscape="true">
+            <h:outputText value="#{msg.infinitum_builde_version}"/>
+        </p:dialog>
+
+    </ui:define>
+
+</ui:composition>

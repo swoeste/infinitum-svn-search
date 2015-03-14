@@ -1,0 +1,120 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html" 
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui" 
+    template="/templates/base-template.xhtml">
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="searchText" value="#{svnIndexerControllerBean.searchText}" />
+            <f:viewParam name="page" value="#{svnIndexerControllerBean.searchResult.page}" />
+            <f:event type="preRenderView" listener="#{svnIndexerControllerBean.validate}" />
+        </f:metadata>
+    </ui:define>
+
+
+    <ui:define name="content">
+
+        <h:outputScript library="default" name="js/highlighter/highlight.pack.js" />
+        <h:outputStylesheet library="default" name="js/highlighter/styles/googlecode.css" />
+
+        <script type="text/javascript">              
+            function highlight(id) {                
+                hljs.highlightBlock(document.getElementById(id));
+            }
+        </script>
+
+        <div class="centerText">
+            <ui:include src="/includes/svnIndexer/searchElement.xhtml" />
+        </div>
+
+        <p:separator id="separator" />
+
+        <ui:repeat var="item" varStatus="itemStatus" value="#{svnIndexerControllerBean.searchResult.currentPageModel}" >
+
+            <p:panelGrid styleClass="searchResultLayout">
+
+                <p:row styleClass="layoutRow">
+
+                    <p:column colspan="1" styleClass="layoutSpacerCol" />
+
+                    <p:column colspan="1" styleClass="layoutContentCol">
+
+                        <p:panelGrid styleClass="searchResult">
+
+                            <p:row>
+                                <p:column colspan="2" styleClass="fileCol">
+                                    <p:outputLabel value="#{item.fileName}" styleClass="fileName" />
+                                    <p:outputLabel value=" (Relevance: #{item.score})" styleClass="score" />
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column colspan="2" styleClass="idCol">#{item.id}</p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column id="typeCol" colspan="1" styleClass="typeCol">#{item.fileType}</p:column>
+                                <p:column id="contentCol" colspan="1" styleClass="contentCol">
+                                    <div id="contentColControl" class="contentColControl">
+                                        <p:commandButton id="switchShowExcerpt" icon="#{item.showExcerpt ? 'ui-icon-plus' : 'ui-icon-minus'}" action="#{item.switchShowExcerpt()}" update=" @this, fileContent" styleClass="onlyIcon" />
+                                    </div>
+                                    <h:panelGroup id="fileContent" layout="block">
+                                        <pre><code><h:outputText id="fileContentText" binding="#{fileContentText}" value="#{item.showExcerpt ? item.excerpt : item.fileContent}" escape="true" /></code></pre>
+                                        <script type="text/javascript">
+                                            highlight('#{fileContentText.clientId}');
+                                        </script>
+                                    </h:panelGroup>
+                                    
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column colspan="2" styleClass="dataCol">
+                                    <p:outputLabel value="Created on #{item.dateOfCreation} in revision #{item.revisionOfCreation} by #{item.authorOfCreation}" styleClass="creationData" />
+                                    <br />
+                                    <p:outputLabel value="Last changed on #{item.dateOfLastUpdate} in revision #{item.revisionOfLastUpdate} by #{item.authorOfLastUpdate}" styleClass="updateData" rendered="#{item.updated}" />
+                                </p:column>
+                            </p:row>
+
+                        </p:panelGrid>
+
+                    </p:column>
+
+                    <p:column colspan="1" styleClass="layoutSpacerCol" />
+
+                </p:row>
+
+            </p:panelGrid>
+
+        </ui:repeat>
+
+
+        <div class="centerText centerElement">
+
+            <h:commandLink action="result" actionListener="#{svnIndexerControllerBean.searchResult.first}" disabled="#{!svnIndexerControllerBean.searchResult.hasPrev()}">
+                <p:graphicImage library="default" name="#{svnIndexerControllerBean.searchResult.hasPrev() ? 'icons/doubleArrowLeft.png' : 'icons/doubleArrowLeftDisabled.png'}" height="48px" width="48px" style="vertical-align: middle;" />
+            </h:commandLink>
+
+            <h:commandLink action="result" actionListener="#{svnIndexerControllerBean.searchResult.prev}" disabled="#{!svnIndexerControllerBean.searchResult.hasPrev()}">
+                <p:graphicImage library="default" name="#{svnIndexerControllerBean.searchResult.hasPrev() ? 'icons/arrowLeft.png' : 'icons/arrowLeftDisabled.png'}" height="48px" width="48px" style="vertical-align: middle;" />
+            </h:commandLink>
+
+            <h:outputText value="#{svnIndexerControllerBean.searchResult.page} / #{svnIndexerControllerBean.searchResult.pages}" />
+            <h:inputHidden value="#{svnIndexerControllerBean.searchResult.page}" />
+
+            <h:commandLink action="result" actionListener="#{svnIndexerControllerBean.searchResult.next}" disabled="#{!svnIndexerControllerBean.searchResult.hasNext()}">
+                <p:graphicImage library="default" name="#{svnIndexerControllerBean.searchResult.hasNext() ? 'icons/arrowRight.png' : 'icons/arrowRightDisabled.png'}" height="48px" width="48px" style="vertical-align: middle;" />
+            </h:commandLink>
+
+            <h:commandLink action="result" actionListener="#{svnIndexerControllerBean.searchResult.last}" disabled="#{!svnIndexerControllerBean.searchResult.hasNext()}">
+                <p:graphicImage library="default" name="#{svnIndexerControllerBean.searchResult.hasNext() ? 'icons/doubleArrowRight.png' : 'icons/doubleArrowRightDisabled.png'}" height="48px" width="48px" style="vertical-align: middle;" />
+            </h:commandLink>
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,23 @@
+PLAIN
+K 6
+CREATE
+V 17
+dir 0-1.0.r1/3052
+K 6
+UPDATE
+V 17
+dir b-1.0.r1/2236
+END
+ENDREP
+id: 0.0.r2/85
+type: dir
+pred: 0.0.r1/3292
+count: 2
+text: 2 0 72 72 b4d1f4dc4d6f1f02c0d73c4f2ff01c5f
+cpath: /
+copyroot: 0 /
+
+6-1.0.r1/1418 delete-dir false false /DELETE
+
+
+85 209
