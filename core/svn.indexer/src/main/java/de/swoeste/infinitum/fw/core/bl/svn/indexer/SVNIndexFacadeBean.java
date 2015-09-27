@@ -16,11 +16,11 @@ import de.swoeste.infinitum.fw.core.bl.svn.indexer.util.SVNPropertiesUtil;
 
 public class SVNIndexFacadeBean implements ISVNIndexFacade {
 
-    private static final Logger LOG     = LoggerFactory.getLogger(SVNRepositoryReader.class);
+    private static final Logger    LOG     = LoggerFactory.getLogger(SVNRepositoryReader.class);
 
-    private static Object       lock    = new Object();
+    private static volatile Object lock    = new Object();
 
-    private static boolean      running = false;
+    private static boolean         running = false;
 
     /**
      * {@inheritDoc}
