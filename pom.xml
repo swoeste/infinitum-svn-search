@@ -73,6 +73,18 @@
 				<version>2.2.14</version>
 			</dependency>
 
+			<!-- Additional (transitive) dependencies, because codehaus repo is down -->
+			<dependency>
+				<groupId>org.glassfish</groupId>
+				<artifactId>javax.el</artifactId>
+				<version>3.0.1-b08</version>
+			</dependency>
+			<dependency>
+				<groupId>com.trilead</groupId>
+				<artifactId>trilead-ssh2</artifactId>
+				<version>1.0.0-build220</version>
+			</dependency>
+			
 			<!-- Servlets -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
@@ -328,6 +340,13 @@
 
 	<!-- Additional Repositories -->
 	<repositories>
+		<!-- SVNKit -->
+		<repository>
+			<id>maven-central-repo</id>
+			<name>Maven Central Repository</name>
+			<url>http://repo1.maven.org/maven2</url>
+			<layout>default</layout>
+		</repository>	
 		<!-- PrimeFaces -->
 		<repository>
 			<id>primefaces-repo</id>
@@ -339,7 +358,7 @@
 		<repository>
 			<id>svnkit-release-repo</id>
 			<name>SVNKit Maven Repository</name>
-			<url>http://maven.tmatesoft.com/content/repositories/releases/</url>
+			<url>http://maven.tmatesoft.com/content/repositories/releases</url>
 			<layout>default</layout>
 		</repository>
 	</repositories>
