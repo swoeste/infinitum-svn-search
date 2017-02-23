@@ -1,6 +1,7 @@
 # infinitum-svn-search
 
-TBD
+[![Build Status](https://travis-ci.org/swoeste/infinitum-svn-search.svg?branch=master)](https://travis-ci.org/swoeste/infinitum-svn-search)
+[![Quality Gate](https://sonarqube.com/api/badges/gate?key=de.swoeste.infinitum:infinitum-svn-search-aggr)](https://sonarqube.com/overview?id=de.swoeste.infinitum:infinitum-svn-search-aggr)
 
 Configuration ...
 ------------------
