@@ -1,13 +1,13 @@
 K 10
 svn:author
-V 9
-Sebastian
+V 5
+sebas
 K 8
 svn:date
 V 27
-2012-11-05T09:29:27.175838Z
+2017-03-07T21:47:08.159405Z
 K 7
 svn:log
-V 24
-created DELETE test case
+V 25
+deleted test folder/files
 END
