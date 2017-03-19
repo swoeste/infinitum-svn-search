@@ -1,143 +1,205 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<!-- Parent -->
-	<parent>
-		<groupId>de.swoeste.infinitum.app</groupId>
-		<artifactId>infinitum-svn-search.app-aggr</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
-	</parent>
+    <!-- Parent -->
+    <parent>
+        <groupId>de.swoeste.infinitum.app</groupId>
+        <artifactId>infinitum-svn-search.app-aggr</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
 
-	<!-- Project -->
-	<groupId>de.swoeste.infinitum-svn-search.app</groupId>
-	<artifactId>app-war</artifactId>
-	<packaging>war</packaging>
+    <!-- Project -->
+    <groupId>de.swoeste.infinitum-svn-search.app</groupId>
+    <artifactId>app-war</artifactId>
+    <packaging>war</packaging>
 
-	<!-- Dependencies -->
-	<dependencies>
+    <!-- Dependencies -->
+    <dependencies>
 
-		<!-- Infinitum -->
-		<dependency>
-			<groupId>de.swoeste.infinitum-svn-search.app</groupId>
-			<artifactId>app-properties</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>de.swoeste.infinitum-svn-search.app</groupId>
-			<artifactId>theme</artifactId>
-			<version>${project.version}</version>
-		</dependency>		
-		<dependency>
-			<groupId>de.swoeste.infinitum-svn-search.core</groupId>
-			<artifactId>svn.indexer</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+        <!-- Infinitum -->
+        <dependency>
+            <groupId>de.swoeste.infinitum-svn-search.app</groupId>
+            <artifactId>app-properties</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.swoeste.infinitum-svn-search.app</groupId>
+            <artifactId>theme</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.swoeste.infinitum-svn-search.core</groupId>
+            <artifactId>svn.indexer</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-		<!-- 3rd Party -->
+        <!-- 3rd Party -->
 
-		<!-- Quartz -->
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz-jobs</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.transaction</groupId>
-			<artifactId>javax.transaction-api</artifactId>
-		</dependency>
+        <!-- Quartz -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz-jobs</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>javax.transaction-api</artifactId>
+        </dependency>
 
-		<!-- Prime Faces API -->
-		<dependency>
-			<groupId>org.primefaces</groupId>
-			<artifactId>primefaces</artifactId>
-		</dependency>
+        <!-- Prime Faces API -->
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+        </dependency>
 
-		<!-- JSF -->
-		<dependency>
-			<groupId>com.sun.faces</groupId>
-			<artifactId>jsf-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.faces</groupId>
-			<artifactId>jsf-impl</artifactId>
-		</dependency>
+        <!-- JSF -->
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+        </dependency>
 
-		<!-- Servlets -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-		</dependency>
+        <!-- Servlets -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
 
-		<!-- Spring -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-expression</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-		</dependency>
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
 
-		<!-- Logging -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<scope>provided</scope>
-		</dependency>		
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<scope>provided</scope>
-		</dependency>		
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<scope>provided</scope>
-		</dependency>
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
-	<!-- Build -->
-	<build>
-		<finalName>infinitum</finalName>
+    <!-- Build -->
+    <build>
+        <finalName>infinitum</finalName>
 
-		<resources>
-			<resource>
-				<!-- Add the resources folder by default -->
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
+        <resources>
+            <resource>
+                <!-- Add the resources folder by default -->
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 
-	</build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.3</version>
+                <executions>
+                    <execution>
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <nodeVersion>v6.10.0</nodeVersion>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>gulp build</id>
+                        <goals>
+                            <goal>gulp</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>build</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/infinitum</outputDirectory>
+                            <resources>          
+                                <resource>
+                                <directory>${project.build.directory}/gulp/build</directory>
+                                <filtering>false</filtering>
+                                </resource>
+                            </resources>              
+                        </configuration>            
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+    </build>
 
 </project>
