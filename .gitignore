@@ -4,4 +4,8 @@
 **/MANIFEST.MF
 **/target
 **/test-output
+**/src-gen
 updates.txt
+app/app-war/node/**
+app/app-war/node_modules/**
+app/app-war/typings/**
