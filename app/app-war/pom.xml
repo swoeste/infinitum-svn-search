@@ -171,7 +171,17 @@
                         <configuration>
                             <arguments>install</arguments>
                         </configuration>
-                    </execution>
+                    </execution>					
+					<execution>
+                        <id>npm outdated</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>outdated</arguments>
+                        </configuration>
+                    </execution>	
                     <execution>
                         <id>gulp build</id>
                         <goals>
@@ -209,7 +219,7 @@
                             <outputDirectory>${project.build.directory}/infinitum</outputDirectory>
                             <resources>          
                                 <resource>
-                                <directory>${project.build.directory}/gulp/build</directory>
+                                <directory>${project.build.directory}/../build</directory>
                                 <filtering>false</filtering>
                                 </resource>
                             </resources>              
