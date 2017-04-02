@@ -1,0 +1,106 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Parent -->
+	<parent>
+		<groupId>de.swoeste.infinitum.app</groupId>
+		<artifactId>infinitum-svn-search.app-aggr</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<!-- Project -->
+	<groupId>de.swoeste.infinitum-svn-search.app</groupId>
+	<artifactId>app-rest</artifactId>
+	<packaging>jar</packaging>
+
+	<!-- Dependencies -->
+	<dependencies>
+
+
+
+<dependency>
+  <groupId>javax.servlet</groupId>
+  <artifactId>javax.servlet-api</artifactId>
+  <version>3.1.0</version>
+</dependency>
+
+
+<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-core</artifactId>
+			<version>1.5.13</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.6.1</version>
+			
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.6.1</version>
+			
+		</dependency>
+		
+		<dependency>
+		  <groupId>joda-time</groupId>
+  <artifactId>joda-time</artifactId>
+  <version>2.9.9</version>
+		</dependency>
+		
+			<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${version.spring}</version>
+		</dependency>
+
+
+
+
+
+	</dependencies>
+
+	<!-- Build -->
+	<build>
+
+
+		<plugins>
+
+
+
+			<plugin>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<version>2.2.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>src/main/resources/rest-api.yaml</inputSpec>
+							<language>spring</language>
+							
+							    <modelPackage>de.swoeste.infinitum.rest.model</modelPackage>
+<apiPackage>de.swoeste.infinitum.rest</apiPackage>
+<invokerPackage>de.swoeste.infinitum.rest.invoker</invokerPackage>
+							
+							<configOptions>
+								<sourceFolder>src/gen/java/main</sourceFolder>
+								<library>spring-mvc</library>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
+
+				</plugin>
+
+		</plugins>            
+
+	</build>
+
+</project>

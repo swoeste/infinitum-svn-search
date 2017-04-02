@@ -6,14 +6,19 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
            http://www.springframework.org/schema/context
-           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/mvc 
+           http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
-	<import resource="classpath:META-INF/de/swoeste/infinitum/infinitum-web-war-aliases.xml" />
+    <mvc:annotation-driven />
+    
+    <context:component-scan base-package="de.swoeste.infinitum" />
 
     <!-- Services -->
 	<bean id="svn.indexer.ControllerBean" class="de.swoeste.infinitum.application.svn.indexer.beans.ControllerBean" scope="session" >	
 		<property name="svnIndexFacade" ref="fw.core.bl.svn.indexer.SVNIndexFacadeBean"/>
 	</bean>
+    <alias name="svn.indexer.ControllerBean" alias="svnIndexerControllerBean"/>
     
     <!-- Jobs -->
     <bean id="svn.indexer.jobs.CreateOrUpdateIndexJob" class="de.swoeste.infinitum.application.svn.indexer.jobs.CreateOrUpdateIndexJob" scope="singleton" >   

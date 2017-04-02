@@ -1,0 +1,131 @@
+swagger: '2.0'
+info:
+  title: SVNSearch API
+  description: TODO
+  version: "1.0.0"
+# the domain of the service
+host: api.uber.com
+# array of all schemes that your API supports
+schemes:
+  - http
+  - https
+# will be prefixed to all paths
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /indexentry:
+    get:
+      summary: TODO
+      description: TODO
+      parameters:
+        - name: id
+          in: query
+          description: TODO
+          required: true
+          type: string
+      tags:
+        - Index
+      responses:
+        200:
+          description: TODO
+          schema:
+            $ref: '#/definitions/IndexEntry'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /search/indexentry:
+    get:
+      summary: P
+      description: TODO
+      parameters:
+        - name: query
+          in: query
+          description: TODO
+          required: true
+          type: string
+      tags:
+        - Search
+      responses:
+        200:
+          description: TODO
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SearchResult'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  SearchResult:
+    type: object
+    description: TODO
+    properties: 
+      code:
+        type: array
+        description: TODO
+        items:
+          $ref: '#/definitions/SearchResultEntry'
+  SearchResultEntry:
+    type: object
+    description: TODO
+    properties:
+      score:
+        type: number
+        format: float
+        description: TODO      
+      excerpt:
+        type: string
+        description: TODO      
+      indexEntry:
+        $ref: '#/definitions/IndexEntry'
+  IndexEntry:
+    type: object
+    description: TODO
+    properties:
+      id:
+        type: string
+        description: TODO
+      file_name:
+        type: string
+        description: TODO
+      file_content:
+        type: string
+        description: TODO
+      file_type:
+        type: string
+        description: TODO
+      created_revision:
+        type: string
+        description: TODO
+      created_date:
+        type: string
+        description: TODO
+      created_author:
+        type: string
+        description: TODO
+      updated:
+        type: boolean
+        description: TODO
+      updated_revision:
+        type: string
+        description: TODO
+      updated_date:
+        type: string
+        description: TODO
+      updated_author:
+        type: string
+        description: TODO
+  Error:
+    type: object
+    description: TODO
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string        

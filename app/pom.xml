@@ -18,6 +18,7 @@
 	<modules>
 		<module>app-assembly</module>		
 		<module>app-properties</module>
+		<module>app-rest</module>
 		<module>app-war</module>
 		<module>theme</module>
 	</modules>
