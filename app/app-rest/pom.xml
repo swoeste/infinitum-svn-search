@@ -82,7 +82,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>src/main/resources/rest-api.yaml</inputSpec>
+							<inputSpec>${project.basedir}/src/main/resources/rest-api.yaml</inputSpec>
 							<language>spring</language>
 							
 							    <modelPackage>de.swoeste.infinitum.rest.model</modelPackage>
@@ -90,7 +90,7 @@
 <invokerPackage>de.swoeste.infinitum.rest.invoker</invokerPackage>
 							
 							<configOptions>
-								<sourceFolder>src/gen/java/main</sourceFolder>
+								<sourceFolder>/src/gen/java/main</sourceFolder>
 								<library>spring-mvc</library>
 							</configOptions>
 						</configuration>
