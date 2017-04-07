@@ -34,6 +34,11 @@
             <artifactId>svn.indexer</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>de.swoeste.infinitum-svn-search.app</groupId>
+            <artifactId>app-rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- 3rd Party -->
 
@@ -124,14 +129,6 @@
             <scope>provided</scope>
         </dependency>
 
-
-
-
-
-
-
-
-
     </dependencies>
 
     <!-- Build -->
@@ -171,8 +168,8 @@
                         <configuration>
                             <arguments>install</arguments>
                         </configuration>
-                    </execution>					
-					<execution>
+                    </execution>
+                    <execution>
                         <id>npm outdated</id>
                         <goals>
                             <goal>npm</goal>
@@ -181,7 +178,7 @@
                         <configuration>
                             <arguments>outdated</arguments>
                         </configuration>
-                    </execution>	
+                    </execution>
                     <execution>
                         <id>gulp build</id>
                         <goals>
@@ -194,17 +191,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
-            
- 
-            
-            
-            
-            
-            
-            
-            
-            
+
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.0.2</version>
@@ -217,13 +204,13 @@
                         </goals>
                         <configuration>
                             <outputDirectory>${project.build.directory}/infinitum</outputDirectory>
-                            <resources>          
+                            <resources>
                                 <resource>
-                                <directory>${project.build.directory}/../build</directory>
-                                <filtering>false</filtering>
+                                    <directory>${project.build.directory}/../build</directory>
+                                    <filtering>false</filtering>
                                 </resource>
-                            </resources>              
-                        </configuration>            
+                            </resources>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
