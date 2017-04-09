@@ -39,4 +39,4 @@
 *.so            binary
 *.war           binary
 
-/core/svn.indexer/src/test/resources/svn-repository/* binary
+/core/svn.indexer/src/test/resources/svn-repository/** binary
