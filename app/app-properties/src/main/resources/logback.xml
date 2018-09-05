@@ -78,11 +78,11 @@
 	</logger>
 
 	<!-- LOG ALL WRITER INFORMATION ADDITIONALY TO A SEPERATE FILE -->
-	<logger name="de.swoeste.infinitum.fw.core.bl.svn.indexer.SVNIndexWriter" level="DEBUG">
+	<logger name="de.swoeste.infinitum.fw.core.bl.svn.indexer.SVNIndexWriter" level="INFO">
 		<appender-ref ref="FILE-WRITER" />
 	</logger>
 
-	<logger name="de.swoeste.infinitum" level="DEBUG"/>
+	<logger name="de.swoeste.infinitum" level="INFO"/>
 
 	<root level="INFO">
 		<appender-ref ref="FILE" />
