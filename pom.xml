@@ -6,24 +6,24 @@
         <maven>3.0.0</maven>
     </prerequisites>
 
-	<!-- Project -->
+    <!-- Project -->
     <groupId>de.swoeste.infinitum</groupId>
     <artifactId>infinitum-svn-search-aggr</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-	<!-- Modules -->
+    <!-- Modules -->
     <modules>
         <module>api</module>
         <module>app</module>
         <module>core</module>
     </modules>
 
-	<!-- Dependency Management -->
+    <!-- Dependency Management -->
     <dependencyManagement>
         <dependencies>
 
-			<!-- Appache Commons -->
+            <!-- Appache Commons -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
@@ -35,14 +35,14 @@
                 <version>2.5</version>
             </dependency>
 
-			<!-- Logging API -->
+            <!-- Logging API -->
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>1.7.23</version>
             </dependency>
 
-			<!-- Logging Implementation -->
+            <!-- Logging Implementation -->
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
@@ -62,14 +62,14 @@
             </dependency>
 
 
-			<!-- Prime Faces -->
+            <!-- Prime Faces -->
             <dependency>
                 <groupId>org.primefaces</groupId>
                 <artifactId>primefaces</artifactId>
                 <version>5.1</version>
             </dependency>
 
-			<!-- JSF -->
+            <!-- JSF -->
             <dependency>
                 <groupId>com.sun.faces</groupId>
                 <artifactId>jsf-api</artifactId>
@@ -81,7 +81,7 @@
                 <version>2.2.14</version>
             </dependency>
 
-			<!-- Additional (transitive) dependencies, because codehaus repo is down -->
+            <!-- Additional (transitive) dependencies, because codehaus repo is down -->
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>javax.el</artifactId>
@@ -92,8 +92,8 @@
                 <artifactId>trilead-ssh2</artifactId>
                 <version>1.0.0-build220</version>
             </dependency>
-			
-			<!-- Servlets -->
+            
+            <!-- Servlets -->
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
@@ -105,14 +105,14 @@
                 <version>1.2</version>
             </dependency>
 
-			<!-- Service Wrapper -->
+            <!-- Service Wrapper -->
             <dependency>
                 <groupId>tanukisoft</groupId>
                 <artifactId>wrapper</artifactId>
                 <version>3.2.3</version>
             </dependency>
 
-			<!-- Jetty -->
+            <!-- Jetty -->
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-server</artifactId>
@@ -127,9 +127,9 @@
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-jsp</artifactId>
                 <version>${version.jetty}</version>
-            </dependency>			
+            </dependency>            
 
-			<!-- Spring -->
+            <!-- Spring -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>
@@ -189,8 +189,8 @@
                 <artifactId>swagger-core</artifactId>
                 <version>1.5.13</version>
             </dependency>            
-			
-			<!-- Div -->
+            
+            <!-- Div -->
             <dependency>
                 <groupId>org.javassist</groupId>
                 <artifactId>javassist</artifactId>
@@ -202,7 +202,7 @@
                 <version>1.2</version>
             </dependency>
 
-			<!-- Quartz -->
+            <!-- Quartz -->
             <dependency>
                 <groupId>org.quartz-scheduler</groupId>
                 <artifactId>quartz</artifactId>
@@ -214,14 +214,14 @@
                 <version>2.2.3</version>
             </dependency>
 
-			<!-- Tika -->
+            <!-- Tika -->
             <dependency>
                 <groupId>org.apache.tika</groupId>
                 <artifactId>tika-parsers</artifactId>
                 <version>1.7</version>
-            </dependency>			
+            </dependency>            
 
-			<!-- GUAVA -->
+            <!-- GUAVA -->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
@@ -229,7 +229,7 @@
             </dependency>
 
 
-			<!-- Lucene -->
+            <!-- Lucene -->
             <dependency>
                 <groupId>org.apache.lucene</groupId>
                 <artifactId>lucene-core</artifactId>
@@ -251,14 +251,14 @@
                 <version>${version.lucene}</version>
             </dependency>
 
-			<!-- SVN-KIT -->
+            <!-- SVN-KIT -->
             <dependency>
                 <groupId>org.tmatesoft.svnkit</groupId>
                 <artifactId>svnkit</artifactId>
                 <version>1.8.14</version>
-            </dependency>		
+            </dependency>        
 
-			<!-- Test -->
+            <!-- Test -->
             <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
@@ -269,7 +269,7 @@
         </dependencies>
     </dependencyManagement>
 
-	<!-- Developers -->
+    <!-- Developers -->
     <developers>
         <developer>
             <id>SWoeste</id>
@@ -282,7 +282,7 @@
         </developer>
     </developers>
 
-	<!-- Licenses -->
+    <!-- Licenses -->
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -292,21 +292,21 @@
         </license>
     </licenses>
 
-	<!-- Build -->
+    <!-- Build -->
     <build>
 
         <resources>
             <resource>
-				<!-- Add the resources folder by default -->
+                <!-- Add the resources folder by default -->
                 <directory>src/main/resources</directory>
             </resource>
         </resources>
 
-		<!-- Plugin Configuration -->
+        <!-- Plugin Configuration -->
         <pluginManagement>
 
             <plugins>
-				<!-- Use Java 7 -->
+                <!-- Use Java 7 -->
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.2</version>
@@ -357,12 +357,39 @@
                     </configuration>
                 </plugin>
 
+<!--
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-scm-plugin</artifactId>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.scm</groupId>
+                            <artifactId>maven-scm-provider-gitexe</artifactId>
+                            <version>1.10.0</version>
+                        </dependency>
+                    </dependencies>
+                    <version>${project.version}</version>
+                    <configuration>
+                        <tag>test</tag>
+                        <connectionType>connection</connectionType>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>tag</id>
+                            <phase>deploy</phase>
+                            <goals>
+                                <goal>tag</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+-->
             </plugins>
         </pluginManagement>
 
     </build>
 
-	<!-- Properties -->
+    <!-- Properties -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version.jetty>9.2.21.v20170120</version.jetty>
@@ -370,23 +397,23 @@
         <version.spring>4.3.6.RELEASE</version.spring>
     </properties>
 
-	<!-- Additional Repositories -->
+    <!-- Additional Repositories -->
     <repositories>
-		<!-- SVNKit -->
+        <!-- SVNKit -->
         <repository>
             <id>maven-central-repo</id>
             <name>Maven Central Repository</name>
             <url>http://repo1.maven.org/maven2</url>
             <layout>default</layout>
-        </repository>	
-		<!-- PrimeFaces -->
+        </repository>    
+        <!-- PrimeFaces -->
         <repository>
             <id>primefaces-repo</id>
             <name>PrimeFaces Maven Repository</name>
             <url>http://repository.primefaces.org</url>
             <layout>default</layout>
         </repository>
-		<!-- SVNKit -->
+        <!-- SVNKit -->
         <repository>
             <id>svnkit-release-repo</id>
             <name>SVNKit Maven Repository</name>
@@ -394,5 +421,12 @@
             <layout>default</layout>
         </repository>
     </repositories>
+
+    <scm>
+        <url>https://github.com/swoeste/infinitum-svn-search</url>
+        <connection>scm:git:git://github.com/swoeste/infinitum-svn-search.git</connection>
+        <developerConnection>scm:git:git@github.com:swoeste/infinitum-svn-search.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 
 </project>
