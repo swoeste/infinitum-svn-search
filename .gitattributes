@@ -42,3 +42,7 @@
 # Mark all files in the svn repository as binary so that they
 # will stay untouched.
 /core/svn.indexer/src/test/resources/svn-repository/** binary
+
+# Mark all files in applications bin folder as binary so that 
+# they will stay untouched.
+/app/app-assembly/src/main/resources/bin** binary
