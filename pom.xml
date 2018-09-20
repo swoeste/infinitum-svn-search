@@ -401,19 +401,4 @@
         <developerConnection>scm:git:git@github.com:swoeste/infinitum-svn-search.git</developerConnection>
     </scm>
 
-    <distributionManagement>
-        <repository>
-            <id>thirdparty</id>
-            <url>http://maven.zeb.de/content/repositories/thirdparty</url>
-            <layout>default</layout>
-        </repository>
-		<!--
-        <snapshotRepository>
-            <id>thirdparty</id>
-            <url>http://maven.zeb.de/content/repositories/thirdparty</url>
-            <layout>default</layout>
-         </snapshotRepository>
-		 -->
-    </distributionManagement>
-
 </project>
