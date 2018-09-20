@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2017 Sebastian Woeste
  *
  * Licensed to Sebastian Woeste under one or more contributor license
@@ -29,9 +29,8 @@ import de.swoeste.infinitum.fw.core.bl.svn.indexer.model.ISVNIndexSearchResult;
 public interface ISVNIndexFacade {
 
     /**
-     * Create a new or update an existing index based on the given
-     * configuration. This method might be called multiple times but is only
-     * executing if it is not already running.
+     * Create a new or update an existing index based on the given configuration. This method might be called multiple
+     * times but is only executing if it is not already running.
      *
      * @param configuration
      *            a configuration
@@ -43,8 +42,7 @@ public interface ISVNIndexFacade {
      *
      * @param search
      *            a search
-     * @return a list of {@link ISVNIndexEntry} which match the search criteria,
-     *         may be empty but never null.
+     * @return a list of {@link ISVNIndexEntry} which match the search criteria, may be empty but never null.
      */
     ISVNIndexSearchResult searchIndex(final SVNIndexSearch search);
 

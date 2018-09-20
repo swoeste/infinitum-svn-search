@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2017 Sebastian Woeste
  *
  * Licensed to Sebastian Woeste under one or more contributor license
@@ -29,8 +29,7 @@ import de.swoeste.infinitum.fw.core.bl.svn.indexer.model.ISVNElement;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.model.SVNEntry;
 
 /**
- * Actions are implementing the command pattern. The command executor just
- * invokes the doAction method.
+ * Actions are implementing the command pattern. The command executor just invokes the doAction method.
  *
  * @author swoeste
  */
@@ -58,27 +57,23 @@ public abstract class AbstractAction {
     }
 
     /**
-     * This method will be called from the AbstractAction, the implemented
-     * action should update the lucene index during execution. Any occurring
-     * CorruptIndexException or IOException will be handled by the calling
-     * method.
+     * This method will be called from the AbstractAction, the implemented action should update the lucene index during
+     * execution. Any occurring CorruptIndexException or IOException will be handled by the calling method.
      *
      * @param writer
-     *            a pre-configured IndexWriter. You could directly access the
-     *            lucene index from it. <b>Do not close it after use, it is
-     *            handled from the invoking class!<b/>
+     *            a pre-configured IndexWriter. You could directly access the lucene index from it. <b>Do not close it
+     *            after use, it is handled from the invoking class!<b/>
      * @param analyzer
      */
     protected abstract void doInternalAction(IndexWriter writer, Analyzer analyzer) throws CorruptIndexException, IOException, IllegalArgumentException;
 
     /**
-     * This method will be called from the SVNIndexWriterJob, the implemented
-     * action should update the lucene index during execution.
+     * This method will be called from the SVNIndexWriterJob, the implemented action should update the lucene index
+     * during execution.
      *
      * @param writer
-     *            a pre-configured IndexWriter. You could directly access the
-     *            lucene index from it. <b>Do not close it after use, it is
-     *            handled from the invoking class!<b/>
+     *            a pre-configured IndexWriter. You could directly access the lucene index from it. <b>Do not close it
+     *            after use, it is handled from the invoking class!<b/>
      * @param analyzer
      */
     public void doAction(final IndexWriter writer, final Analyzer analyzer) {

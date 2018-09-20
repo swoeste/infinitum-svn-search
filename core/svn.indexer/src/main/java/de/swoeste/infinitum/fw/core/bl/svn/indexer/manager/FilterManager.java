@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2017 Sebastian Woeste
  *
  * Licensed to Sebastian Woeste under one or more contributor license
@@ -41,8 +41,8 @@ public class FilterManager {
     }
 
     /**
-     * For each item fetched from the svn repository this method is called to
-     * check if the current item should be filtered or not.
+     * For each item fetched from the svn repository this method is called to check if the current item should be
+     * filtered or not.
      *
      * @param data
      * @return true if the given item passes the filter, false if not

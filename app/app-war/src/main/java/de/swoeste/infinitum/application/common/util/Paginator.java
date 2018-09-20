@@ -1,15 +1,15 @@
-/*
+/*-
  * Copyright (C) 2017 Sebastian Woeste
- * 
+ *
  * Licensed to Sebastian Woeste under one or more contributor license
  * agreements. See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership. I license this file to You under
  * the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License
  * at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -69,7 +69,7 @@ public class Paginator<T> {
 
     /**
      * The amount of records displayed on a single page.
-     * 
+     *
      * @return the amount of records
      */
     public int getRecordsPerPage() {
@@ -78,7 +78,7 @@ public class Paginator<T> {
 
     /**
      * The total amount of records managed by this Paginator.
-     * 
+     *
      * @return the total amount of records
      */
     public int getRecordsTotal() {
@@ -87,7 +87,7 @@ public class Paginator<T> {
 
     /**
      * The total amount of pages managed by this Paginator.
-     * 
+     *
      * @return the total amount of pages
      */
     public int getPages() {
@@ -96,7 +96,7 @@ public class Paginator<T> {
 
     /**
      * Returns the records of the current page.
-     * 
+     *
      * @return a list of records
      */
     public List<T> getCurrentPageModel() {
@@ -105,7 +105,7 @@ public class Paginator<T> {
 
     /**
      * Get the index (1-based, not 0-based) of the current page.
-     * 
+     *
      * @return the index of the current page
      */
     public int getPage() {
@@ -115,9 +115,8 @@ public class Paginator<T> {
     /**
      * Set the index (1-based, not 0-based) of the current page.<br/>
      * If the index is equals or less then 0, the current page will be set to 1.<br/>
-     * If the index is greater then max index. the current page will be set to
-     * max index.
-     * 
+     * If the index is greater then max index. the current page will be set to max index.
+     *
      * @param pageIndex
      *            the index of the current page
      */
@@ -135,7 +134,7 @@ public class Paginator<T> {
 
     /**
      * Check if the next page exist.
-     * 
+     *
      * @return true if a next page exists, false if not
      */
     public boolean hasNext() {
@@ -164,7 +163,7 @@ public class Paginator<T> {
 
     /**
      * Check if the previous page exist.
-     * 
+     *
      * @return true if a previous page exists, false if not
      */
     public boolean hasPrev() {
