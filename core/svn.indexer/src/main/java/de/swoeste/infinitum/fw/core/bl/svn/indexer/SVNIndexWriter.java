@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2017 Sebastian Woeste
  *
  * Licensed to Sebastian Woeste under one or more contributor license agreements. See the NOTICE file distributed with
@@ -99,6 +99,7 @@ public class SVNIndexWriter implements IActionQueue {
             }
 
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             LOG.error("Error while trying to shutdown SVNIndexWriter", e);
         }
     }

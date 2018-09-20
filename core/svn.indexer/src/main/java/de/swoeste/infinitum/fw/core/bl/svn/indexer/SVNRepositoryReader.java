@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2017 Sebastian Woeste
  *
  * Licensed to Sebastian Woeste under one or more contributor license agreements. See the NOTICE file distributed with
@@ -265,14 +265,8 @@ public class SVNRepositoryReader implements ISVNContentReader {
         }
     }
 
-    // FIXME: Currently the queue is first filled and then a worker starts to
-    // remove each entry step by step. I think we could improve this by
-    // connecting the worker directly with the queue and let him work in
-    // parallel.
-
     /**
-     * @return
-     * @throws SVNException
+     * {@inheritDoc}
      */
     @Override
     public void readRepository(final IActionQueue queue, final long startRevision, final long endRevision) throws SVNException {
@@ -284,7 +278,7 @@ public class SVNRepositoryReader implements ISVNContentReader {
             LOG.debug("Start reading of revision {}.", svnLogEntry.getRevision());
 
             for (final SVNLogEntryPath svnLogEntryPath : values) {
-                LOG.debug("Passing {} to FilterManager.", svnLogEntryPath.toString());
+                LOG.debug("Passing {} to FilterManager.", svnLogEntryPath);
 
                 final SVNNodeKind nodeKind = getNodeKind(svnLogEntry, svnLogEntryPath);
                 final SVNEntry data = new SVNEntry(this.root, svnLogEntry, svnLogEntryPath, nodeKind);
@@ -301,11 +295,6 @@ public class SVNRepositoryReader implements ISVNContentReader {
                             break;
 
                         case SVNLogEntryPath.TYPE_MODIFIED:
-                            addSVNLogEntryOfCreationToData(data);
-                            addContentToData(data, nodeKind);
-                            queue.addAction(new ActionUpdate(data));
-                            break;
-
                         case SVNLogEntryPath.TYPE_REPLACED:
                             addSVNLogEntryOfCreationToData(data);
                             addContentToData(data, nodeKind);
@@ -317,7 +306,7 @@ public class SVNRepositoryReader implements ISVNContentReader {
                             break;
                     }
                 } else {
-                    LOG.debug("The element {} did not pass the filter.", svnLogEntryPath.toString());
+                    LOG.debug("The element {} did not pass the filter.", svnLogEntryPath);
                 }
             }
 
