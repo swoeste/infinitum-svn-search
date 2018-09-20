@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (C) 2017 Sebastian Woeste
  *
  * Licensed to Sebastian Woeste under one or more contributor license agreements. See the NOTICE file distributed with
@@ -30,11 +30,15 @@ import de.swoeste.infinitum.fw.core.bl.svn.indexer.util.SVNPropertiesUtil;
 
 public class SVNIndexFacadeBean implements ISVNIndexFacade {
 
-    private static final Logger    LOG     = LoggerFactory.getLogger(SVNRepositoryReader.class);
+    private static final Logger    LOG              = LoggerFactory.getLogger(SVNRepositoryReader.class);
 
-    private static volatile Object lock    = new Object();
+    private static final int       MAX_RETRIES      = 3;
 
-    private static boolean         running = false;
+    private static final int       SLEEP_TIME_IN_MS = 1000;
+
+    private static volatile Object lock             = new Object();
+
+    private static boolean         running          = false;
 
     /**
      * {@inheritDoc}
@@ -58,12 +62,13 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
         } finally {
             setRunning(false);
         }
+
     }
 
     /** {@inheritDoc} */
     @Override
     public ISVNIndexSearchResult searchIndex(final SVNIndexSearch search) {
-        final SVNIndexSearcher reader = new SVNIndexSearcher(getIndexFile(search.getRootPath()));
+        final SVNIndexSearcher reader = new SVNIndexSearcher(getIndexLocation(search.getRootPath()));
         return reader.search(search);
     }
 
@@ -71,7 +76,7 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
      * @param rootPath
      * @return
      */
-    public static File getIndexFile(final String rootPath) {
+    public static File getIndexLocation(final String rootPath) {
         return new File(rootPath + SVNConstants.INDEX_PATH);
     }
 
@@ -80,19 +85,19 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
     }
 
     private void secureCreateOrUpdateIndex(final SVNIndexConfiguration configuration) throws SVNException, IOException {
-
         final String rootPath = configuration.getRootPath();
 
-        // read additional properties
-        final SortedProperties properties = SVNPropertiesUtil.openProperties(rootPath);
-        final SVNIndexConfiguration updatedConfiguration = updateConfiguration(configuration, properties);
+        // check if an index was already created and should be continued at a specific revision
+        final long currentlyIndexedRevision = readCurrentlyIndexedRevision(rootPath);
+        if (configuration.getStartRevision() < currentlyIndexedRevision) {
+            LOG.info("Incremental update of local index will continue at revision {}", currentlyIndexedRevision);
+            configuration.setStartRevision(currentlyIndexedRevision);
+        }
 
-        final SVNRepositoryReader reader = new SVNRepositoryReader(updatedConfiguration);
-
+        final SVNRepositoryReader reader = new SVNRepositoryReader(configuration);
         SVNIndexWriter writer = null;
 
         try {
-
             LOG.info("Connecting to {}", configuration.getSvnInformation().getRepositoryUrl()); //$NON-NLS-1$
             reader.openConnection();
 
@@ -100,23 +105,24 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
             LOG.info("Latest revision of svn repository is {}", latestRevision); //$NON-NLS-1$
 
             if (configuration.getStartRevision() < latestRevision) {
-
-                final File indexDestionation = getIndexFile(rootPath);
-                LOG.info("Destination for index is {}", indexDestionation); //$NON-NLS-1$
+                final File indexDestionation = getIndexLocation(rootPath);
+                LOG.debug("Destination for index is {}", indexDestionation); //$NON-NLS-1$
 
                 writer = new SVNIndexWriter(indexDestionation);
                 writer.startup();
 
                 long startRevision = configuration.getStartRevision();
                 long batchRevision = startRevision + configuration.getBatchSize();
+                long completedRevision = startRevision; // exit marker
 
-                long readRevision = startRevision; // exit marker
+                byte retryCounter = 0;
+                boolean abortIndexCreation = false;
 
-                while (readRevision < latestRevision) {
+                while ((completedRevision < latestRevision) && !abortIndexCreation) {
+                    writeCurrentlyIndexedRevision(rootPath, startRevision);
 
                     if (batchRevision > latestRevision) {
-                        // SVNKit does not allow non existing revisions, so we
-                        // reduce it to the head revision
+                        // SVNKit does not allow non existing revisions, so we reduce it to the head revision
                         batchRevision = latestRevision;
                     }
 
@@ -125,32 +131,28 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
                                 startRevision, batchRevision, latestRevision);
                         reader.readRepository(writer, startRevision, batchRevision);
 
-                        readRevision = batchRevision;
+                        completedRevision = batchRevision;
                         startRevision = batchRevision + 1;
                         batchRevision = batchRevision + configuration.getBatchSize();
+                        retryCounter = 0;
                     } catch (Exception ex) {
-                        LOG.error("An error occured while reading revision {} to {}.", //$NON-NLS-1$
-                                startRevision, batchRevision, ex);
+                        LOG.error("An error occured while reading revision {} to {}.", startRevision, batchRevision, ex); //$NON-NLS-1$
+                        if (retryCounter <= MAX_RETRIES) {
+                            LOG.debug("Waiting for {} to perform a retry.", SLEEP_TIME_IN_MS); //$NON-NLS-1$
+                            sleep(SLEEP_TIME_IN_MS);
+                            retryCounter++;
+                        } else {
+                            LOG.error("Aborting index creation/update after {} failed retries.", MAX_RETRIES); //$NON-NLS-1$
+                            abortIndexCreation = true;
+                        }
                     }
-
-                    // FIXME We need a mechanism to gracefully stop everything
-                    // if an exception occurs. Example: A new class
-                    // "CancellationHandler" which will be injected into the
-                    // reader and the writer, if an exception happen in any of
-                    // both the handler will be set to stop to that the other
-                    // one could gracefully stop execution. Afterwards we store
-                    // the last successfully executed revision to the properties
-                    // file. If the exception cause is resolved the next
-                    // execution will start in the right place.
-
                 }
 
+                // tell the writer, that all data for the current chunk have been read
                 writer.completed();
 
-                // store the properties
-                // TODO maybe we could improve this ...
-                properties.put(SVNConstants.PROPERTY_LAST_REVISION, String.valueOf(latestRevision));
-                SVNPropertiesUtil.storeProperties(rootPath, properties);
+            } else {
+                LOG.debug("The index is currently up to date, nothing to do."); //$NON-NLS-1$
             }
 
         } finally {
@@ -161,26 +163,30 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
             }
         }
 
-        LOG.info("Local index successfully created/updated");
+        LOG.info("Local index successfully created/updated."); //$NON-NLS-1$
     }
 
     private synchronized void setRunning(final boolean running) {
         SVNIndexFacadeBean.running = running;
     }
 
-    /**
-     * @param configuration
-     * @param properties
-     */
+    private long readCurrentlyIndexedRevision(final String rootPath) {
+        final SortedProperties properties = SVNPropertiesUtil.openProperties(rootPath);
+        return properties.getLongValue(SVNConstants.PROPERTY_LAST_REVISION);
+    }
 
-    // TODO maybe we could improve this ...
-    private SVNIndexConfiguration updateConfiguration(final SVNIndexConfiguration configuration, final SortedProperties properties) {
-        final long lastRevision = properties.getLongValue(SVNConstants.PROPERTY_LAST_REVISION);
-        if (configuration.getStartRevision() < lastRevision) {
-            LOG.info("Incremental update of local index will continue at revision {}", lastRevision);
-            configuration.setStartRevision(lastRevision);
+    private void writeCurrentlyIndexedRevision(final String rootPath, final long revision) throws IOException {
+        final SortedProperties properties = SVNPropertiesUtil.openProperties(rootPath);
+        properties.put(SVNConstants.PROPERTY_LAST_REVISION, String.valueOf(revision));
+        SVNPropertiesUtil.storeProperties(rootPath, properties);
+    }
+
+    private void sleep(final int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException ex1) {
+            Thread.currentThread().interrupt();
         }
-        return configuration;
     }
 
 }
