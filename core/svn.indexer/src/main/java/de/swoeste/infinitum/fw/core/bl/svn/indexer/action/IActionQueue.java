@@ -36,4 +36,11 @@ public interface IActionQueue {
      */
     void completed();
 
+    /**
+     * The amount of actions currently in the queue.
+     *
+     * @return the amount of actions
+     */
+    int size();
+
 }

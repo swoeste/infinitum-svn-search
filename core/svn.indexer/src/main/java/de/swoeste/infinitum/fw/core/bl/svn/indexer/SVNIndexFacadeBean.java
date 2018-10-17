@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.tmatesoft.svn.core.SVNException;
 
 import de.swoeste.infinitum.common.utils.properties.SortedProperties;
-import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexConfiguration;
+import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexContext;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexSearch;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.exception.SVNIndexException;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.model.ISVNIndexSearchResult;
@@ -48,7 +48,7 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
      * {@inheritDoc}
      */
     @Override
-    public void createOrUpdateIndex(final SVNIndexConfiguration configuration) {
+    public void createOrUpdateIndex(final SVNIndexContext configuration) {
 
         synchronized (lock) {
             if (isRunning()) {
@@ -88,13 +88,13 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
         return SVNIndexFacadeBean.running;
     }
 
-    private void secureCreateOrUpdateIndex(final SVNIndexConfiguration configuration) throws SVNException, IOException {
+    private void secureCreateOrUpdateIndex(final SVNIndexContext configuration) throws SVNException, IOException {
         final String rootPath = configuration.getRootPath();
 
         // check if an index was already created and should be continued at a specific revision
         final long currentlyIndexedRevision = readCurrentlyIndexedRevision(rootPath);
         if (configuration.getStartRevision() < currentlyIndexedRevision) {
-            LOG.info("Incremental update of local index will continue at revision {}", currentlyIndexedRevision);
+            LOG.info("Incremental update of local index will continue at revision {}", currentlyIndexedRevision); //$NON-NLS-1$
             configuration.setStartRevision(currentlyIndexedRevision);
         }
 

@@ -12,19 +12,19 @@ The configuration file is located at %ROOT%/conf/`svnsearch.properties`.
     # address will be used for listening on the specified ports.
     # By default, ports will be used on all IP addresses associated with the server.
     infinitum.web.host = 0.0.0.0
-  
+
     # SVN Search listening port.
     # The default value is 80.
     infinitum.web.port = 80
-  
+
     # The web context must start with a forward slash (for example /svnsearch).
     # The default value is root context ('/'). 
     infinitum.web.context = /
-  
+
     # The maximum amount of search results.
     # The default value is 100.
     svn.index.maxSearchResults = 100
-  
+
     # The amount of search results displayed on a page.
     # The default value is 10.
     svn.index.searchResultsPerPage = 10
@@ -36,6 +36,22 @@ The configuration file is located at %ROOT%/conf/`svnsearch.properties`.
     # The address of the svn repository which should be indexed.
     # For example: https://svn-search.googlecode.com/svn/
     svn.index.repository = 
+
+    # The username and password for an authenticated access to the svn repository.
+    #svn.index.username = 
+    #svn.index.password = 
+
+    # The size of the chunks the revisions should be fetched. 
+    #svn.index.batchSize = 5000
+
+    # Files to be excluded by multiple regular expressions based on they're name.
+    svn.index.excludeFiles.0 = .*.exe
+
+    # Alternatively: 
+    # Files to be excluded by multiple regular expressions based on they're path (full qualified name).
+    # You can also filter file by name using this exclude mechanism it is just a little bit slower than
+    # using the above configuration in case u just want to filter by file name (or file extension).
+    #svn.index.excludePaths.0 = 
 
 Something like ...
 ------------------

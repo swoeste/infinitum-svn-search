@@ -47,12 +47,13 @@ import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+import de.swoeste.infinitum.common.utils.ThreadUtils;
 import de.swoeste.infinitum.common.utils.constants.StringConstants;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.action.ActionCreate;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.action.ActionDelete;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.action.ActionUpdate;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.action.IActionQueue;
-import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexConfiguration;
+import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexContext;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNInformation;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.filter.ISVNFilter;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.internal.ISVNContentReader;
@@ -61,27 +62,29 @@ import de.swoeste.infinitum.fw.core.bl.svn.indexer.model.SVNEntry;
 
 public class SVNRepositoryReader implements ISVNContentReader {
 
-    private static final Logger         LOG                = LoggerFactory.getLogger(SVNRepositoryReader.class);
+    private static final Logger   LOG                = LoggerFactory.getLogger(SVNRepositoryReader.class);
 
-    private static final int            IGNORE_WRITE_LIMIT = -1;
-    private static final int            MAX_FILE_SIZE      = 20;
+    private static final int      IGNORE_WRITE_LIMIT = -1;
+    private static final int      MAX_FILE_SIZE      = 20;
+    private static final int      MAX_QUEUE_SIZE     = 100;
+    private static final int      SLEEP_TIME         = 10000;
 
-    private static final String         ENCODING           = "UTF-8";                                                                                      //$NON-NLS-1$
+    private static final String   ENCODING           = "UTF-8";                                                                                      //$NON-NLS-1$
 
-    private final SVNIndexConfiguration configuration;
-    private final FilterManager         filter;
+    private final SVNIndexContext configuration;
+    private final FilterManager   filterManager;
 
-    private SVNRepository               repository;
-    private SVNURL                      root;
+    private SVNRepository         repository;
+    private SVNURL                root;
 
     /**
      * Constructor for a new SVNReader.
      *
      * @param configuration
      */
-    public SVNRepositoryReader(final SVNIndexConfiguration configuration) {
+    public SVNRepositoryReader(final SVNIndexContext configuration) {
         this.configuration = configuration;
-        this.filter = new FilterManager();
+        this.filterManager = new FilterManager();
         initFilter();
     }
 
@@ -153,7 +156,7 @@ public class SVNRepositoryReader implements ISVNContentReader {
 
     private void initFilter() {
         for (final ISVNFilter filter : this.configuration.getFilter()) {
-            this.filter.addFilter(filter);
+            this.filterManager.addFilter(filter);
         }
     }
 
@@ -287,7 +290,7 @@ public class SVNRepositoryReader implements ISVNContentReader {
                 final SVNNodeKind nodeKind = getNodeKind(svnLogEntry, svnLogEntryPath);
                 final SVNEntry data = new SVNEntry(this.root, svnLogEntry, svnLogEntryPath, nodeKind);
 
-                if (this.filter.isFiltered(data)) {
+                if (this.filterManager.isFiltered(data)) {
                     switch (svnLogEntryPath.getType()) {
                         case SVNLogEntryPath.TYPE_ADDED:
                             addContentToData(data, nodeKind);
@@ -311,6 +314,10 @@ public class SVNRepositoryReader implements ISVNContentReader {
                     }
                 } else {
                     LOG.debug("The element {} did not pass the filter.", svnLogEntryPath);
+                }
+
+                if (queue.size() > MAX_QUEUE_SIZE) {
+                    ThreadUtils.sleep(SLEEP_TIME);
                 }
             }
 

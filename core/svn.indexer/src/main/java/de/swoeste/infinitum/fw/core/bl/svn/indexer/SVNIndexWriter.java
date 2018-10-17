@@ -82,6 +82,12 @@ public class SVNIndexWriter implements IActionQueue {
         this.queue.add(action);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public int size() {
+        return this.queue.size();
+    }
+
     public void startup() {
         LOG.debug("Startup, creating task to write index.");
         this.executor.execute(new SVNIndexWriterJob());
@@ -156,15 +162,9 @@ public class SVNIndexWriter implements IActionQueue {
                 LOG.debug("TASK: Reader has completed filling the queue, executing remaining actions");
                 executeActions();
 
-            } catch (IOException e) {
-                LOG.warn("TASK: An error occured while executing actions from queue", e);
-
-                // FIXME
-
             } catch (Exception e) {
                 LOG.error("TASK: An error occured while executing actions from queue", e);
-
-                // FIXME
+                // FIXME improve error handling
 
             } finally {
                 close();
@@ -181,7 +181,7 @@ public class SVNIndexWriter implements IActionQueue {
                         action.doAction(SVNIndexWriter.this.writer, SVNIndexWriter.this.analyzer);
                     } catch (Exception ex) {
                         // FIXME
-                        LOG.debug("Error while trying to perform action: " + action, ex);
+                        LOG.debug("Error while trying to perform action: {}", action, ex);
                         throw ex;
                     }
                 }

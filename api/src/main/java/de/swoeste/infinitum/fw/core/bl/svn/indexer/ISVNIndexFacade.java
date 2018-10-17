@@ -18,7 +18,7 @@
  */
 package de.swoeste.infinitum.fw.core.bl.svn.indexer;
 
-import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexConfiguration;
+import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexContext;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexSearch;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.model.ISVNIndexEntry;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.model.ISVNIndexSearchResult;
@@ -35,7 +35,7 @@ public interface ISVNIndexFacade {
      * @param configuration
      *            a configuration
      */
-    void createOrUpdateIndex(final SVNIndexConfiguration configuration);
+    void createOrUpdateIndex(final SVNIndexContext configuration);
 
     /**
      * Search the index with the given search criteria.

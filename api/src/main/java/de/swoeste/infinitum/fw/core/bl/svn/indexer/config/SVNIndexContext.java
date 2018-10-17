@@ -19,6 +19,7 @@
 package de.swoeste.infinitum.fw.core.bl.svn.indexer.config;
 
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,9 +29,7 @@ import de.swoeste.infinitum.fw.core.bl.svn.indexer.filter.ISVNFilter;
 /**
  * @author swoeste
  */
-public class SVNIndexConfiguration {
-
-    // TODO rename to SVNIndexContext ? - Because it better reflects its usage.
+public class SVNIndexContext {
 
     private final SVNInformation  svnInformation;
     private final Set<ISVNFilter> filter;
@@ -39,11 +38,15 @@ public class SVNIndexConfiguration {
     private long                  startRevision;
     private int                   batchSize;
 
-    public SVNIndexConfiguration(final SVNInformation svn, final String indexPath) {
-        this(svn, indexPath, 0, 5000);
+    public SVNIndexContext(final SVNInformation svn, final String indexPath) {
+        this(svn, indexPath, 5000);
     }
 
-    public SVNIndexConfiguration(final SVNInformation svnInformation, final String indexPath, final long startRevision, final int batchSize) {
+    public SVNIndexContext(final SVNInformation svn, final String indexPath, final int batchSize) {
+        this(svn, indexPath, batchSize, 0);
+    }
+
+    public SVNIndexContext(final SVNInformation svnInformation, final String indexPath, final int batchSize, final long startRevision) {
         this.svnInformation = svnInformation;
         this.filter = new HashSet<>();
         this.startRevision = startRevision;
@@ -53,6 +56,10 @@ public class SVNIndexConfiguration {
 
     public void addFilter(final ISVNFilter filter) {
         this.filter.add(filter);
+    }
+
+    public void addFilter(final Collection<ISVNFilter> filter) {
+        this.filter.addAll(filter);
     }
 
     public Set<ISVNFilter> getFilter() {

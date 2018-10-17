@@ -31,7 +31,7 @@ import org.testng.annotations.Test;
 
 import com.google.common.io.Files;
 
-import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexConfiguration;
+import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexContext;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexFields;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexSearch;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNInformation;
@@ -55,7 +55,7 @@ public class SVNIndexFacadeTest {
     public void createOrUpdateIndex() throws URISyntaxException {
         final SVNIndexFacadeBean facade = new SVNIndexFacadeBean();
         final SVNInformation svn = new SVNInformation(getRepositoryLocation());
-        final SVNIndexConfiguration configuration = new SVNIndexConfiguration(svn, this.index.getAbsolutePath());
+        final SVNIndexContext configuration = new SVNIndexContext(svn, this.index.getAbsolutePath());
         configuration.addFilter(new ExcludeNameFilter(".*.ignore"));
         configuration.addFilter(new ExcludePathFilter(".*/IGNORE/.*"));
         facade.createOrUpdateIndex(configuration);
