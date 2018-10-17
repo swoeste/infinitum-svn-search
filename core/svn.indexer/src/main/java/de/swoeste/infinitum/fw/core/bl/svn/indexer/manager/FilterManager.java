@@ -41,22 +41,20 @@ public class FilterManager {
     }
 
     /**
-     * For each item fetched from the svn repository this method is called to check if the current item should be
-     * filtered or not.
+     * Check if the given svn element should be rejected from being indexed.
      *
      * @param data
-     * @return true if the given item passes the filter, false if not
+     * @return true if the given svn element is rejected, false if not
      */
 
-    public boolean isFiltered(final ISVNElement data) {
+    public boolean isRejected(final ISVNElement data) {
         for (final ISVNFilter filter : this.filters) {
-            if (!filter.isFiltered(data)) {
-                return false;
+            if (filter.isRejected(data)) {
+                return true;
             }
         }
 
-        // by default all items pass the filter
-        return true;
+        return false;
     }
 
 }

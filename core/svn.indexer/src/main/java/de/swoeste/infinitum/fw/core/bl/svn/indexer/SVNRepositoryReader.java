@@ -290,7 +290,7 @@ public class SVNRepositoryReader implements ISVNContentReader {
                 final SVNNodeKind nodeKind = getNodeKind(svnLogEntry, svnLogEntryPath);
                 final SVNEntry data = new SVNEntry(this.root, svnLogEntry, svnLogEntryPath, nodeKind);
 
-                if (this.filterManager.isFiltered(data)) {
+                if (!this.filterManager.isRejected(data)) {
                     switch (svnLogEntryPath.getType()) {
                         case SVNLogEntryPath.TYPE_ADDED:
                             addContentToData(data, nodeKind);

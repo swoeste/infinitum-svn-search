@@ -18,6 +18,8 @@
  */
 package de.swoeste.infinitum.fw.core.bl.svn.indexer.filter;
 
+import java.text.MessageFormat;
+
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.model.ISVNElement;
 
 /**
@@ -36,8 +38,14 @@ public class ExcludeNameFilter extends AbstractFilter {
 
     /** {@inheritDoc} */
     @Override
-    public boolean isFiltered(final ISVNElement data) {
-        return !data.getNodeName().matches(getExpression());
+    public boolean isRejected(final ISVNElement data) {
+        return data.getNodeName().matches(getExpression());
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        return MessageFormat.format("ExcludeNameFilter [getExpression()={0}]", this.getExpression()); //$NON-NLS-1$
     }
 
 }

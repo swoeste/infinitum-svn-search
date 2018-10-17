@@ -26,12 +26,13 @@ import de.swoeste.infinitum.fw.core.bl.svn.indexer.model.ISVNElement;
 public interface ISVNFilter {
 
     /**
-     * For each item fetched from the svn repository this method is called to check if the current item should be
-     * filtered or not. The ISVNIndexItemData will be created for each item and contains all relevant information of it.
+     * For each item fetched from the svn repository this method is called to check if the given svn element should be
+     * rejected from being used within the index. The ISVNElement will be created for each item and contains all
+     * relevant information of it.
      *
      * @param data
-     * @return true if the given item passes the filter, false if not
+     * @return true if the given svn element is rejected, false if not
      */
-    boolean isFiltered(ISVNElement data);
+    boolean isRejected(ISVNElement data);
 
 }
