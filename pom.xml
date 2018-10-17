@@ -9,7 +9,7 @@
     <!-- Project -->
     <groupId>de.swoeste.infinitum</groupId>
     <artifactId>infinitum-svn-search-aggr</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.1.0</version>
     <packaging>pom</packaging>
 
     <!-- Modules -->
@@ -367,7 +367,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version.jetty>9.2.21.v20170120</version.jetty>
         <version.lucene>4.9.0</version.lucene>
-        <version.spring>4.3.6.RELEASE</version.spring>
+        <version.spring>4.3.18.RELEASE</version.spring>
     </properties>
 
     <!-- Additional Repositories -->
