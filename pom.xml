@@ -9,7 +9,7 @@
     <!-- Project -->
     <groupId>de.swoeste.infinitum</groupId>
     <artifactId>infinitum-svn-search-aggr</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <!-- Modules -->
