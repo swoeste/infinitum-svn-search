@@ -90,9 +90,7 @@ public class SVNIndexSearcher {
             highlighter.setMaxDocCharsToAnalyze(Integer.MAX_VALUE);
             return highlighter.getBestFragment(this.analyzer, SVNIndexFields.FILE_CONTENT.name(), text);
 
-        } catch (InvalidTokenOffsetsException ex) {
-            LOG.error("Unable to create excerpt for content, excerpt will not be available!", ex); //$NON-NLS-1$
-        } catch (IOException ex) {
+        } catch (InvalidTokenOffsetsException | IOException ex) {
             LOG.error("Unable to create excerpt for content, excerpt will not be available!", ex); //$NON-NLS-1$
         }
 

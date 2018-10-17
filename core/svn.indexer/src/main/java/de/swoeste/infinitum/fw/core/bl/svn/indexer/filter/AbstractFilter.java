@@ -18,8 +18,6 @@
  */
 package de.swoeste.infinitum.fw.core.bl.svn.indexer.filter;
 
-import de.swoeste.infinitum.fw.core.bl.svn.indexer.model.ISVNElement;
-
 /**
  * Used for Command-Pattern.
  *
@@ -44,11 +42,5 @@ public abstract class AbstractFilter implements ISVNFilter {
     public String getExpression() {
         return this.expression;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract boolean isFiltered(ISVNElement data);
 
 }

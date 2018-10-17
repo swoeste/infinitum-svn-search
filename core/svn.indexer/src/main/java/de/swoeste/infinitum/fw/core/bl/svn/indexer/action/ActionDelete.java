@@ -56,14 +56,12 @@ public class ActionDelete extends AbstractAction {
         if (getData().isFile()) {
             ActionDelete.LOG.info("Execute 'DELETE' action for FILE: {}", getData().getAbsolutePath()); //$NON-NLS-1$
             writer.deleteDocuments(new Term(SVNIndexFields.ID.name(), getData().getAbsolutePath()));
-            return;
         }
 
         // Handle Directories
         if (getData().isFolder()) {
             ActionDelete.LOG.info("Execute 'DELETE' action for FOLDER: {}", getData().getAbsolutePath()); //$NON-NLS-1$
             writer.deleteDocuments(new PrefixQuery(new Term(SVNIndexFields.ID.name(), getData().getAbsolutePath())));
-            return;
         }
 
     }

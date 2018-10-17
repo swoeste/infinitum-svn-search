@@ -39,4 +39,5 @@ public class ExcludeNameFilter extends AbstractFilter {
     public boolean isFiltered(final ISVNElement data) {
         return !data.getNodeName().matches(getExpression());
     }
+
 }

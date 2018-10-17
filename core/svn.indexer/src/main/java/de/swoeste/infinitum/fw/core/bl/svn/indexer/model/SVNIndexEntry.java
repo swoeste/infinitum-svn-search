@@ -18,7 +18,7 @@
  */
 package de.swoeste.infinitum.fw.core.bl.svn.indexer.model;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexFields;
@@ -31,7 +31,7 @@ public class SVNIndexEntry implements ISVNIndexEntry {
     private final Map<SVNIndexFields, String> indexedAttributes;
 
     public SVNIndexEntry() {
-        this.indexedAttributes = new HashMap<>();
+        this.indexedAttributes = new EnumMap<>(SVNIndexFields.class);
     }
 
     /**

@@ -29,7 +29,7 @@ import de.swoeste.infinitum.fw.core.bl.svn.indexer.model.ISVNElement;
  */
 public class FilterManager {
 
-    private final Set<ISVNFilter> filter = new HashSet<>();
+    private final Set<ISVNFilter> filters = new HashSet<>();
 
     /**
      * Add a new Filter to this FilterExecutor.
@@ -37,7 +37,7 @@ public class FilterManager {
      * @param filter
      */
     public void addFilter(final ISVNFilter filter) {
-        this.filter.add(filter);
+        this.filters.add(filter);
     }
 
     /**
@@ -49,7 +49,7 @@ public class FilterManager {
      */
 
     public boolean isFiltered(final ISVNElement data) {
-        for (final ISVNFilter filter : this.filter) {
+        for (final ISVNFilter filter : this.filters) {
             if (!filter.isFiltered(data)) {
                 return false;
             }
