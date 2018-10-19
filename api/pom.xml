@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>de.swoeste.infinitum</groupId>
 		<artifactId>infinitum-svn-search-aggr</artifactId>
-		<version>1.1.1</version>
+		<version>1.1.2-SNAPSHOT</version>
 	</parent>
 
 	<!-- Project -->
