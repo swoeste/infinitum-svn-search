@@ -101,6 +101,10 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
         final SVNRepositoryReader reader = new SVNRepositoryReader(configuration);
         SVNIndexWriter writer = null;
 
+        long startRevision = configuration.getStartRevision();
+        long batchRevision = startRevision + configuration.getBatchSize();
+        long completedRevision = startRevision; // exit marker
+
         try {
             LOG.info("Connecting to {}", configuration.getSvnInformation().getRepositoryUrl()); //$NON-NLS-1$
             reader.openConnection();
@@ -115,15 +119,11 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
                 writer = new SVNIndexWriter(indexDestionation);
                 writer.startup();
 
-                long startRevision = configuration.getStartRevision();
-                long batchRevision = startRevision + configuration.getBatchSize();
-                long completedRevision = startRevision; // exit marker
-
                 byte retryCounter = 0;
                 boolean abortIndexCreation = false;
 
                 while ((completedRevision < latestRevision) && !abortIndexCreation) {
-                    writeCurrentlyIndexedRevision(rootPath, startRevision);
+                    writeCurrentlyIndexedRevision(rootPath, completedRevision);
 
                     if (batchRevision > latestRevision) {
                         // SVNKit does not allow non existing revisions, so we reduce it to the head revision
@@ -139,6 +139,7 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
                         startRevision = batchRevision + 1;
                         batchRevision = batchRevision + configuration.getBatchSize();
                         retryCounter = 0;
+
                     } catch (Exception ex) {
                         LOG.error("An error occured while reading revision {} to {}.", startRevision, batchRevision, ex); //$NON-NLS-1$
                         if (retryCounter <= MAX_RETRIES) {
@@ -150,6 +151,7 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
                             abortIndexCreation = true;
                         }
                     }
+
                 }
 
                 // tell the writer, that all data for the current chunk have been read
@@ -167,6 +169,7 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
             }
         }
 
+        writeCurrentlyIndexedRevision(rootPath, completedRevision);
         LOG.info("Local index successfully created/updated."); //$NON-NLS-1$
     }
 
