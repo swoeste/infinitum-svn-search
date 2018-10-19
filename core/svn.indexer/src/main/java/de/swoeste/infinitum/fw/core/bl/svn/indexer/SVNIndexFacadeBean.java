@@ -101,10 +101,6 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
         final SVNRepositoryReader reader = new SVNRepositoryReader(configuration);
         SVNIndexWriter writer = null;
 
-        long startRevision = configuration.getStartRevision();
-        long batchRevision = startRevision + configuration.getBatchSize();
-        long completedRevision = startRevision; // exit marker
-
         try {
             LOG.info("Connecting to {}", configuration.getSvnInformation().getRepositoryUrl()); //$NON-NLS-1$
             reader.openConnection();
@@ -119,11 +115,14 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
                 writer = new SVNIndexWriter(indexDestionation);
                 writer.startup();
 
+                long startRevision = configuration.getStartRevision();
+                long batchRevision = startRevision + configuration.getBatchSize();
+                long completedRevision = startRevision; // exit marker
+
                 byte retryCounter = 0;
                 boolean abortIndexCreation = false;
 
                 while ((completedRevision < latestRevision) && !abortIndexCreation) {
-                    writeCurrentlyIndexedRevision(rootPath, completedRevision);
 
                     if (batchRevision > latestRevision) {
                         // SVNKit does not allow non existing revisions, so we reduce it to the head revision
@@ -152,6 +151,9 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
                         }
                     }
 
+                    if (!abortIndexCreation) {
+                        writeCurrentlyIndexedRevision(rootPath, completedRevision);
+                    }
                 }
 
                 // tell the writer, that all data for the current chunk have been read
@@ -169,7 +171,6 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
             }
         }
 
-        writeCurrentlyIndexedRevision(rootPath, completedRevision);
         LOG.info("Local index successfully created/updated."); //$NON-NLS-1$
     }
 
