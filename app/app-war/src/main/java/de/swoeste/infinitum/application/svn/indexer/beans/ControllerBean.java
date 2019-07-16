@@ -28,11 +28,13 @@ import javax.faces.event.ActionEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import de.swoeste.infinitum.application.common.conf.ApplicationProperties;
-import de.swoeste.infinitum.application.common.util.Paginator;
 import de.swoeste.infinitum.application.svn.indexer.Pages;
+import de.swoeste.infinitum.application.svn.indexer.conf.ApplicationProperties;
 import de.swoeste.infinitum.application.svn.indexer.model.SearchResultTO;
+import de.swoeste.infinitum.application.svn.indexer.util.Paginator;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.ISVNIndexFacade;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexSearch;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.model.ISVNIndexSearchResult;
@@ -41,10 +43,13 @@ import de.swoeste.infinitum.fw.core.bl.svn.indexer.model.ISVNIndexSearchResultEn
 /**
  * @author swoeste
  */
+// ALIAS 4 JSF
+@Service(value = "svnIndexerControllerBean")
 public class ControllerBean {
 
     private static final Logger       LOG = LoggerFactory.getLogger(ControllerBean.class);
 
+    @Autowired
     private ISVNIndexFacade           svnIndexFacade;
 
     private String                    searchText;
@@ -108,13 +113,6 @@ public class ControllerBean {
     public void setSearchText(final String searchText) {
         LOG.trace("Set 'searchText' from '{}' to '{}' ", this.searchText, searchText); //$NON-NLS-1$
         this.searchText = searchText;
-    }
-
-    /**
-     * Used by Spring!
-     */
-    public void setSvnIndexFacade(final ISVNIndexFacade svnIndexFacade) {
-        this.svnIndexFacade = svnIndexFacade;
     }
 
 }

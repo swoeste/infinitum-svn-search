@@ -24,8 +24,11 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
-import de.swoeste.infinitum.application.common.conf.ApplicationProperties;
+import de.swoeste.infinitum.application.svn.indexer.conf.ApplicationProperties;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.ISVNIndexFacade;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexContext;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNInformation;
@@ -36,16 +39,20 @@ import de.swoeste.infinitum.fw.core.bl.svn.indexer.filter.ISVNFilter;
 /**
  * @author swoeste
  */
+@Component
 public class CreateOrUpdateIndexJob {
 
     private static final Logger LOG = LoggerFactory.getLogger(CreateOrUpdateIndexJob.class);
 
+    @Autowired
     private ISVNIndexFacade     svnIndexFacade;
 
     public void setSvnIndexFacade(final ISVNIndexFacade svnIndexFacade) {
         this.svnIndexFacade = svnIndexFacade;
     }
 
+    // FIXME make me configurable!
+    @Scheduled(cron = "0 0/5 * * * ?")
     public void execute() {
         LOG.info("Executing: CreateOrUpdateIndexJob"); //$NON-NLS-1$
 

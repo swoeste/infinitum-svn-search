@@ -1,99 +1,107 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<!-- Parent -->
-	<parent>
-		<groupId>de.swoeste.infinitum.core</groupId>
-		<artifactId>infinitum-svn-search.core-aggr</artifactId>
-		<version>1.1.2-SNAPSHOT</version>
-	</parent>
+    <!-- Parent -->
+    <parent>
+        <groupId>de.swoeste.infinitum.core</groupId>
+        <artifactId>infinitum-svn-search.core-aggr</artifactId>
+        <version>1.1.2-SNAPSHOT</version>
+    </parent>
 
-	<!-- Project -->
-	<groupId>de.swoeste.infinitum-svn-search.core</groupId>
-	<artifactId>svn.indexer</artifactId>
+    <!-- Project -->
+    <groupId>de.swoeste.infinitum-svn-search.core</groupId>
+    <artifactId>svn.indexer</artifactId>
 
-	<!-- Dependencies -->
-	<dependencies>
+    <!-- Dependencies -->
+    <dependencies>
 
-		<!-- Infinitum -->
-		<dependency>
-			<groupId>de.swoeste.infinitum.api</groupId>
-			<artifactId>svn.indexer-api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>de.swoeste.infinitum-svn-search.core</groupId>
-			<artifactId>utils</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+        <!-- Infinitum -->
+        <dependency>
+            <groupId>de.swoeste.infinitum.api</groupId>
+            <artifactId>svn.indexer-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.swoeste.infinitum-svn-search.core</groupId>
+            <artifactId>utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-		<!-- 3rd Party -->
+        <!-- 3rd Party -->
 
-		<!-- GUAVA -->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-		</dependency>
+        <!-- GUAVA -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
 
-		<!-- SVN-KIT -->
-		<dependency>
-			<groupId>org.tmatesoft.svnkit</groupId>
-			<artifactId>svnkit</artifactId>
-		</dependency>
+        <!-- SVN-KIT -->
+        <dependency>
+            <groupId>org.tmatesoft.svnkit</groupId>
+            <artifactId>svnkit</artifactId>
+        </dependency>
 
-		<!-- Lucene -->
-		<dependency>
-			<groupId>org.apache.lucene</groupId>
-			<artifactId>lucene-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.lucene</groupId>
-			<artifactId>lucene-analyzers-common</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.lucene</groupId>
-			<artifactId>lucene-queryparser</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.lucene</groupId>
-			<artifactId>lucene-highlighter</artifactId>
-		</dependency>
+        <!-- Lucene -->
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-analyzers-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-queryparser</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-highlighter</artifactId>
+        </dependency>
 
-		<!-- Logging API -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
+        <!-- Logging API -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
 
-		<!-- Apache Commons -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-		</dependency>
+        <!-- Apache Commons -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
 
-		<!-- TestNG -->
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-		</dependency>
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
 
-		<!-- Tika -->
-		<dependency>
-			<groupId>org.apache.tika</groupId>
-			<artifactId>tika-parsers</artifactId>
-		</dependency>
+        <!-- TestNG -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-		<!-- Test -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<scope>test</scope>
-		</dependency>		
+        <!-- Tika -->
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-parsers</artifactId>
+        </dependency>
 
-	</dependencies>
+        <!-- Test -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
 </project>

@@ -23,6 +23,7 @@ import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.tmatesoft.svn.core.SVNException;
 
 import de.swoeste.infinitum.common.utils.properties.SortedProperties;
@@ -32,6 +33,10 @@ import de.swoeste.infinitum.fw.core.bl.svn.indexer.exception.SVNIndexException;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.model.ISVNIndexSearchResult;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.util.SVNPropertiesUtil;
 
+/**
+ * @author swoeste
+ */
+@Service
 public class SVNIndexFacadeBean implements ISVNIndexFacade {
 
     private static final Logger    LOG              = LoggerFactory.getLogger(SVNRepositoryReader.class);
