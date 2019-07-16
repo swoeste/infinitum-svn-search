@@ -6,8 +6,6 @@
 **/test-output
 **/src-gen
 updates.txt
-app/app-war/build/**
-app/app-war/node/**
-app/app-war/node_modules/**
-app/app-war/typings/**
-app/app-war/npm-debug\.log
+app/app-ui/build/**
+app/app-ui/node/**
+app/app-ui/node_modules/**
