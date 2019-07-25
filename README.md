@@ -1,7 +1,8 @@
 # infinitum-svn-search
 
-[![Build Status](https://travis-ci.org/swoeste/infinitum-svn-search.svg?branch=master)](https://travis-ci.org/swoeste/infinitum-svn-search)
-[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=de.swoeste.infinitum:infinitum-svn-search-aggr)](https://sonarcloud.io/dashboard/index/de.swoeste.infinitum:infinitum-svn-search-aggr)
+[![Build Status](https://travis-ci.org/swoeste/infinitum-svn-search.svg?branch=master)](https://travis-ci.org/swoeste/infinitum-svn-search) 
+[![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=de.swoeste.infinitum:infinitum-svn-search-aggr&metric=alert_status)](https://sonarcloud.io/dashboard?id=de.swoeste.infinitum:infinitum-svn-search-aggr)
+
 
 Configuration ...
 ------------------
