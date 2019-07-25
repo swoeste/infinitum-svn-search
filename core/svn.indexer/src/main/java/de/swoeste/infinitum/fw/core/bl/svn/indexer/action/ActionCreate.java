@@ -21,10 +21,10 @@ package de.swoeste.infinitum.fw.core.bl.svn.indexer.action;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.document.LongField;
+import org.apache.lucene.document.LongPoint;
+import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
@@ -57,7 +57,7 @@ public class ActionCreate extends AbstractAction {
      * {@inheritDoc}
      */
     @Override
-    protected void doInternalAction(final IndexWriter writer, final Analyzer analyzer) throws IOException {
+    protected void doInternalAction(final IndexWriter writer) throws IOException {
         try {
 
             if (getData().isFile()) {
@@ -71,13 +71,18 @@ public class ActionCreate extends AbstractAction {
                 document.add(new StringField(SVNIndexFields.FILE_TYPE.name(), getData().getFileType(), Store.YES));
                 document.add(new TextField(SVNIndexFields.FILE_CONTENT.name(), getData().getContent(), Store.YES));
 
-                document.add(new LongField(SVNIndexFields.CREATED_REVISION.name(), getData().getRevisionOfCreation(), Store.YES));
+                // TODO: check if this change behaves as expected
+                // document.add(new LongField(SVNIndexFields.CREATED_REVISION.name(), getData().getRevisionOfCreation(),
+                // Store.YES));
+                document.add(new LongPoint(SVNIndexFields.CREATED_REVISION.name(), getData().getRevisionOfCreation()));
+                document.add(new StoredField(SVNIndexFields.CREATED_REVISION.name(), getData().getRevisionOfCreation()));
+
                 document.add(new StringField(SVNIndexFields.CREATED_AUTHOR.name(), getData().getAuthorOfCreation(), Store.YES));
                 document.add(new StringField(SVNIndexFields.CREATED_DATE.name(), DateUtils.format(getData().getDateOfCreation()), Store.YES));
 
                 document.add(new StringField(SVNIndexFields.UPDATED.name(), Boolean.FALSE.toString(), Store.YES));
 
-                writer.addDocument(document, analyzer);
+                writer.addDocument(document);
             }
 
         } catch (final IllegalArgumentException ex) {

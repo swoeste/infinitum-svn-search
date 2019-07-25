@@ -25,7 +25,6 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.AnalyzerWrapper;
 import org.apache.lucene.analysis.core.KeywordAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.util.Version;
 
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexFields;
 
@@ -34,15 +33,13 @@ import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexFields;
  */
 public class SVNIndexAnalyzer extends AnalyzerWrapper {
 
-    private final Version               version;
     private final Analyzer              defaultAnalyzer;
     private final Map<String, Analyzer> fieldAnalyzers;
 
-    public SVNIndexAnalyzer(final Version version) {
+    public SVNIndexAnalyzer() {
         super(PER_FIELD_REUSE_STRATEGY);
-        this.version = version;
-        this.defaultAnalyzer = new StandardAnalyzer(version);
-        this.fieldAnalyzers = initAnalyzer(version);
+        this.defaultAnalyzer = new StandardAnalyzer();
+        this.fieldAnalyzers = initAnalyzer();
     }
 
     /** {@inheritDoc} */
@@ -56,12 +53,12 @@ public class SVNIndexAnalyzer extends AnalyzerWrapper {
      * @param version
      * @return
      */
-    private static final Map<String, Analyzer> initAnalyzer(final Version version) {
+    private static final Map<String, Analyzer> initAnalyzer() {
         final Map<String, Analyzer> map = new HashMap<>();
         map.put(SVNIndexFields.CREATED_AUTHOR.name(), new KeywordAnalyzer());
         map.put(SVNIndexFields.CREATED_DATE.name(), new KeywordAnalyzer());
         map.put(SVNIndexFields.CREATED_REVISION.name(), new KeywordAnalyzer());
-        map.put(SVNIndexFields.FILE_CONTENT.name(), new StandardAnalyzer(version));
+        map.put(SVNIndexFields.FILE_CONTENT.name(), new StandardAnalyzer());
         map.put(SVNIndexFields.FILE_NAME.name(), new KeywordAnalyzer());
         map.put(SVNIndexFields.FILE_TYPE.name(), new KeywordAnalyzer());
         map.put(SVNIndexFields.ID.name(), new KeywordAnalyzer());
@@ -76,7 +73,7 @@ public class SVNIndexAnalyzer extends AnalyzerWrapper {
     @Override
     @SuppressWarnings("nls")
     public String toString() {
-        return "SVNIndexAnalyzer [version=" + this.version + ", defaultAnalyzer=" + this.defaultAnalyzer + ", fieldAnalyzers=" + this.fieldAnalyzers + "]";
+        return "SVNIndexAnalyzer [defaultAnalyzer=" + this.defaultAnalyzer + ", fieldAnalyzers=" + this.fieldAnalyzers + "]";
     }
 
 }

@@ -18,8 +18,8 @@
  */
 package de.swoeste.infinitum.fw.core.bl.svn.indexer;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.ExecutorService;
@@ -52,7 +52,7 @@ public class SVNIndexWriter implements IActionQueue {
 
     private final Queue<AbstractAction> queue    = new LinkedList<>();
 
-    private final File                  location;
+    private final Path                  location;
 
     private IndexWriter                 writer;
 
@@ -64,10 +64,10 @@ public class SVNIndexWriter implements IActionQueue {
      * @param location
      * @param reader
      */
-    public SVNIndexWriter(final File location) {
+    public SVNIndexWriter(final Path location) {
         this.location = location;
         this.completed = false;
-        this.analyzer = new SVNIndexAnalyzer(SVNConstants.LUCENE_VERSION);
+        this.analyzer = new SVNIndexAnalyzer();
     }
 
     /** {@inheritDoc} */
@@ -118,7 +118,7 @@ public class SVNIndexWriter implements IActionQueue {
         LOG.debug("Connection to lucene index has been opened.");
         final Directory directory = FSDirectory.open(this.location);
 
-        final IndexWriterConfig config = new IndexWriterConfig(SVNConstants.LUCENE_VERSION, this.analyzer);
+        final IndexWriterConfig config = new IndexWriterConfig(this.analyzer);
         config.setOpenMode(OpenMode.CREATE_OR_APPEND);
         this.writer = new IndexWriter(directory, config);
     }
@@ -144,7 +144,7 @@ public class SVNIndexWriter implements IActionQueue {
 
                 do {
 
-                    if (SVNIndexWriter.this.location.getUsableSpace() <= SIZE100MB) {
+                    if (SVNIndexWriter.this.location.toFile().getUsableSpace() <= SIZE100MB) {
                         throw new SVNIndexException("There is less than 100MB space left for index creation, execution will be stopped!");
                     }
 
@@ -178,7 +178,7 @@ public class SVNIndexWriter implements IActionQueue {
                 final AbstractAction action = SVNIndexWriter.this.queue.poll();
                 if (action != null) {
                     try {
-                        action.doAction(SVNIndexWriter.this.writer, SVNIndexWriter.this.analyzer);
+                        action.doAction(SVNIndexWriter.this.writer);
                     } catch (Exception ex) {
                         // FIXME
                         LOG.debug("Error while trying to perform action: {}", action, ex);

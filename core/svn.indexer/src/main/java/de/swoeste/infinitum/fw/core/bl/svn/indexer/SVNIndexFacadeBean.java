@@ -18,8 +18,9 @@
  */
 package de.swoeste.infinitum.fw.core.bl.svn.indexer;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,8 +86,8 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
      * @param rootPath
      * @return
      */
-    public static File getIndexLocation(final String rootPath) {
-        return new File(rootPath + SVNConstants.INDEX_PATH);
+    public static Path getIndexLocation(final String rootPath) {
+        return Paths.get(rootPath, SVNConstants.INDEX_PATH);
     }
 
     public synchronized boolean isRunning() {
@@ -96,7 +97,8 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
     private void secureCreateOrUpdateIndex(final SVNIndexContext configuration) throws SVNException, IOException {
         final String rootPath = configuration.getRootPath();
 
-        // check if an index was already created and should be continued at a specific revision
+        // check if an index was already created and should be continued at a
+        // specific revision
         final long currentlyIndexedRevision = readCurrentlyIndexedRevision(rootPath);
         if (configuration.getStartRevision() < currentlyIndexedRevision) {
             LOG.info("Incremental update of local index will continue at revision {}", currentlyIndexedRevision); //$NON-NLS-1$
@@ -114,7 +116,7 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
             LOG.info("Latest revision of svn repository is {}", latestRevision); //$NON-NLS-1$
 
             if (configuration.getStartRevision() < latestRevision) {
-                final File indexDestionation = getIndexLocation(rootPath);
+                final Path indexDestionation = getIndexLocation(rootPath);
                 LOG.debug("Destination for index is {}", indexDestionation); //$NON-NLS-1$
 
                 writer = new SVNIndexWriter(indexDestionation);
@@ -130,7 +132,8 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
                 while ((completedRevision < latestRevision) && !abortIndexCreation) {
 
                     if (batchRevision > latestRevision) {
-                        // SVNKit does not allow non existing revisions, so we reduce it to the head revision
+                        // SVNKit does not allow non existing revisions, so we
+                        // reduce it to the head revision
                         batchRevision = latestRevision;
                     }
 
@@ -161,7 +164,8 @@ public class SVNIndexFacadeBean implements ISVNIndexFacade {
                     }
                 }
 
-                // tell the writer, that all data for the current chunk have been read
+                // tell the writer, that all data for the current chunk have
+                // been read
                 writer.completed();
 
             } else {

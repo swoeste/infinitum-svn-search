@@ -20,7 +20,6 @@ package de.swoeste.infinitum.fw.core.bl.svn.indexer.action;
 
 import java.io.IOException;
 
-import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.PrefixQuery;
@@ -50,7 +49,7 @@ public class ActionDelete extends AbstractAction {
      * {@inheritDoc}
      */
     @Override
-    protected void doInternalAction(final IndexWriter writer, final Analyzer analyzer) throws IOException {
+    protected void doInternalAction(final IndexWriter writer) throws IOException {
 
         // Handle Files
         if (getData().isFile()) {

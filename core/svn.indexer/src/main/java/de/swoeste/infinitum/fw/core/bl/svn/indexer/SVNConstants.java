@@ -18,23 +18,19 @@
  */
 package de.swoeste.infinitum.fw.core.bl.svn.indexer;
 
-import org.apache.lucene.util.Version;
-
 /**
  * @author swoeste
  */
 @SuppressWarnings("nls")
 public final class SVNConstants {
 
-    public static final Version LUCENE_VERSION                 = Version.LUCENE_4_9;
+    public static final String PROPERTIES_PATH                = "/index.properties";
 
-    public static final String  PROPERTIES_PATH                = "/index.properties";
+    public static final String PROPERTY_LAST_REVISION         = "last.revision";
 
-    public static final String  PROPERTY_LAST_REVISION         = "last.revision";
+    public static final String PROPERTY_LAST_REVISION_DEFAULT = "0";
 
-    public static final String  PROPERTY_LAST_REVISION_DEFAULT = "0";
-
-    public static final String  INDEX_PATH                     = "/index";
+    public static final String INDEX_PATH                     = "/index";
 
     private SVNConstants() {
         // hidden

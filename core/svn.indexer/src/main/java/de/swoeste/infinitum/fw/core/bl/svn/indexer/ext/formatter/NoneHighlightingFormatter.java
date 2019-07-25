@@ -24,7 +24,7 @@ import org.apache.lucene.search.highlight.TokenGroup;
 /**
  * @author swoeste
  */
-public class NoneHilightingFormatter implements Formatter {
+public class NoneHighlightingFormatter implements Formatter {
 
     /** {@inheritDoc} */
     @Override

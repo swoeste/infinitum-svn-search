@@ -18,8 +18,8 @@
  */
 package de.swoeste.infinitum.fw.core.bl.svn.indexer;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 
 import org.apache.commons.io.IOUtils;
@@ -47,7 +47,7 @@ import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexFields;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.config.SVNIndexSearch;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.exception.SVNIndexException;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.ext.analyzer.SVNIndexAnalyzer;
-import de.swoeste.infinitum.fw.core.bl.svn.indexer.ext.formatter.NoneHilightingFormatter;
+import de.swoeste.infinitum.fw.core.bl.svn.indexer.ext.formatter.NoneHighlightingFormatter;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.model.ISVNIndexSearchResult;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.model.SVNIndexEntry;
 import de.swoeste.infinitum.fw.core.bl.svn.indexer.model.SVNIndexSearchResult;
@@ -60,13 +60,13 @@ public class SVNIndexSearcher {
 
     private static final Logger LOG = LoggerFactory.getLogger(SVNIndexSearcher.class);
 
-    private final File          location;
+    private final Path          location;
 
     private IndexReader         reader;
     private IndexSearcher       searcher;
     private Analyzer            analyzer;
 
-    public SVNIndexSearcher(final File location) {
+    public SVNIndexSearcher(final Path location) {
         this.location = location;
     }
 
@@ -84,7 +84,7 @@ public class SVNIndexSearcher {
     private String createExcerpt(final Query query, final String text) {
         try {
             final QueryScorer queryScorer = new QueryScorer(query);
-            final Formatter formatter = new NoneHilightingFormatter();
+            final Formatter formatter = new NoneHighlightingFormatter();
             final Highlighter highlighter = new Highlighter(formatter, queryScorer);
             highlighter.setTextFragmenter(new SimpleSpanFragmenter(queryScorer, 250));
             highlighter.setMaxDocCharsToAnalyze(Integer.MAX_VALUE);
@@ -109,7 +109,7 @@ public class SVNIndexSearcher {
 
             int index = 0;
 
-            while ((index < topDocs.totalHits) && (index < search.getMaxResults())) {
+            while ((index < topDocs.totalHits.value) && (index < search.getMaxResults())) {
                 final ScoreDoc scoreDoc = topDocs.scoreDocs[index];
                 final Document doc = this.searcher.doc(scoreDoc.doc);
 
@@ -143,7 +143,7 @@ public class SVNIndexSearcher {
     private void setup() throws IOException {
         this.reader = DirectoryReader.open(FSDirectory.open(this.location));
         this.searcher = new IndexSearcher(this.reader);
-        this.analyzer = new SVNIndexAnalyzer(SVNConstants.LUCENE_VERSION);
+        this.analyzer = new SVNIndexAnalyzer();
     }
 
     private void teardown() {

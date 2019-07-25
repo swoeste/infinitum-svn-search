@@ -20,7 +20,6 @@ package de.swoeste.infinitum.fw.core.bl.svn.indexer.action;
 
 import java.io.IOException;
 
-import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 
@@ -63,9 +62,8 @@ public abstract class AbstractAction {
      * @param writer
      *            a pre-configured IndexWriter. You could directly access the lucene index from it. <b>Do not close it
      *            after use, it is handled from the invoking class!<b/>
-     * @param analyzer
      */
-    protected abstract void doInternalAction(IndexWriter writer, Analyzer analyzer) throws CorruptIndexException, IOException, IllegalArgumentException;
+    protected abstract void doInternalAction(IndexWriter writer) throws CorruptIndexException, IOException, IllegalArgumentException;
 
     /**
      * This method will be called from the SVNIndexWriterJob, the implemented action should update the lucene index
@@ -74,11 +72,10 @@ public abstract class AbstractAction {
      * @param writer
      *            a pre-configured IndexWriter. You could directly access the lucene index from it. <b>Do not close it
      *            after use, it is handled from the invoking class!<b/>
-     * @param analyzer
      */
-    public void doAction(final IndexWriter writer, final Analyzer analyzer) {
+    public void doAction(final IndexWriter writer) {
         try {
-            doInternalAction(writer, analyzer);
+            doInternalAction(writer);
         } catch (final CorruptIndexException ex) {
             throw new SVNIndexException("The lucene index seems to be corrupt.", ex); //$NON-NLS-1$
         } catch (final IOException ex) {
