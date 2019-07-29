@@ -56,6 +56,8 @@ public class SVNIndexWriter implements IActionQueue {
 
     private IndexWriter                 writer;
 
+    private SVNIndexWriterJob           writerJob;
+
     private boolean                     completed;
 
     /**
@@ -73,11 +75,14 @@ public class SVNIndexWriter implements IActionQueue {
     /** {@inheritDoc} */
     @Override
     public void completed() {
+        ensureStartup();
         this.completed = true;
     }
 
     @Override
     public void addAction(final AbstractAction action) {
+        ensureStartup();
+        ensureRunning();
         LOG.debug("Adding new action to queue, new size of queue is {}", this.queue.size());
         this.queue.add(action);
     }
@@ -85,12 +90,26 @@ public class SVNIndexWriter implements IActionQueue {
     /** {@inheritDoc} */
     @Override
     public int size() {
+        ensureStartup();
         return this.queue.size();
+    }
+
+    private void ensureStartup() {
+        if (this.writerJob == null) {
+            throw new IllegalStateException("The SVNIndexWriter was not started prior to the execution of this method, starting the SVNIndexWriter is mandatory.");
+        }
+    }
+
+    private void ensureRunning() {
+        if (this.writerJob.isAbortedByException()) {
+            throw new IllegalStateException("The SVNIndexWriterJob was aborted by an exception.", this.writerJob.getExecutionException());
+        }
     }
 
     public void startup() {
         LOG.debug("Startup, creating task to write index.");
-        this.executor.execute(new SVNIndexWriterJob());
+        this.writerJob = new SVNIndexWriterJob();
+        this.executor.execute(this.writerJob);
     }
 
     public void shutdown() {
@@ -111,6 +130,8 @@ public class SVNIndexWriter implements IActionQueue {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             LOG.error("Error while trying to shutdown SVNIndexWriter", e);
+        } finally {
+            this.writerJob = null;
         }
     }
 
@@ -125,12 +146,14 @@ public class SVNIndexWriter implements IActionQueue {
 
     private void close() {
         LOG.debug("Connection to lucene index has been closed.");
-        IOUtils.closeQuietly(SVNIndexWriter.this.writer);
+        IOUtils.closeQuietly(this.writer);
     }
 
     private final class SVNIndexWriterJob implements Runnable {
 
-        private static final long SIZE100MB = 104857600;
+        private static final long SIZE_100MB = 104857600;
+
+        private Exception         executionException;
 
         /** {@inheritDoc} */
         @Override
@@ -138,13 +161,11 @@ public class SVNIndexWriter implements IActionQueue {
             LOG.debug("TASK: Executing actions from queue has been started");
 
             try {
-                // FIXME: If open() fails the svn index reader will not stop!
-                // This will lead to a OOM-Exception after some time.
                 open();
 
                 do {
 
-                    if (SVNIndexWriter.this.location.toFile().getUsableSpace() <= SIZE100MB) {
+                    if (SVNIndexWriter.this.location.toFile().getUsableSpace() <= SIZE_100MB) {
                         throw new SVNIndexException("There is less than 100MB space left for index creation, execution will be stopped!");
                     }
 
@@ -159,13 +180,12 @@ public class SVNIndexWriter implements IActionQueue {
 
                 } while (!SVNIndexWriter.this.completed);
 
-                LOG.debug("TASK: Reader has completed filling the queue, executing remaining actions");
+                LOG.debug("TASK: Writer has completed filling the queue, executing remaining actions");
                 executeActions();
 
-            } catch (Exception e) {
-                LOG.error("TASK: An error occured while executing actions from queue", e);
-                // FIXME improve error handling
-
+            } catch (Exception ex) {
+                LOG.error("TASK: An error occured while executing actions from queue", ex);
+                this.executionException = ex;
             } finally {
                 close();
             }
@@ -180,7 +200,6 @@ public class SVNIndexWriter implements IActionQueue {
                     try {
                         action.doAction(SVNIndexWriter.this.writer);
                     } catch (Exception ex) {
-                        // FIXME
                         LOG.debug("Error while trying to perform action: {}", action, ex);
                         throw ex;
                     }
@@ -189,11 +208,18 @@ public class SVNIndexWriter implements IActionQueue {
         }
 
         private void logMemoryInformations() {
-            // https://stackoverflow.com/questions/12807797/java-get-available-memory/18366283#18366283
-            long allocatedMemory = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
-            long maxMemory = Runtime.getRuntime().maxMemory();
-            long presumableFreeMemory = maxMemory - allocatedMemory;
+            final long allocatedMemory = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+            final long maxMemory = Runtime.getRuntime().maxMemory();
+            final long presumableFreeMemory = maxMemory - allocatedMemory;
             LOG.debug("Max: {} Allocated: {} Free: {}", maxMemory, allocatedMemory, presumableFreeMemory);
+        }
+
+        private boolean isAbortedByException() {
+            return this.executionException != null;
+        }
+
+        private Exception getExecutionException() {
+            return this.executionException;
         }
 
     }
