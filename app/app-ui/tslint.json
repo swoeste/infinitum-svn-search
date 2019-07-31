@@ -1,0 +1,19 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended",
+        "tslint-react",
+        "tslint-config-prettier"
+    ],
+    "jsRules": {},
+    "rules": {},
+    "rulesDirectory": [],
+    "linterOptions": {
+        "exclude": [
+            "build/**",
+            "node/**",
+            "node_modules/**",
+            "target/**"
+        ]
+    }
+}
