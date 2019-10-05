@@ -45,7 +45,7 @@
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>api</servlet-name>
+        <servlet-name>next</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>throwExceptionIfNoHandlerFound</param-name>
@@ -54,8 +54,8 @@
         <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
-        <servlet-name>api</servlet-name>
-        <url-pattern>/api/*</url-pattern>
+        <servlet-name>next</servlet-name>
+        <url-pattern>/next/*</url-pattern>
     </servlet-mapping>
     <!-- ================ -->
     <welcome-file-list>
