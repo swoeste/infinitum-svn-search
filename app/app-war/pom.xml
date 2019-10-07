@@ -162,7 +162,7 @@
                         </goals>
                         <configuration>
                             <includeArtifactIds>app-ui</includeArtifactIds>
-                            <outputDirectory>${project.build.directory}/infinitum/next</outputDirectory>
+                            <outputDirectory>${project.build.directory}/infinitum/next/ui</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
