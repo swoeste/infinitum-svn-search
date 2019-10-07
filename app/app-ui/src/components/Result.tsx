@@ -1,9 +1,20 @@
 import React from "react";
+import { withRouter, WithRouterProps, RouteComponentProps } from "react-router";
 
-class Result extends React.Component {
+
+
+
+interface IResultProps extends RouteComponentProps {
+  onToogleTheme: any;
+  classes: any;
+}
+
+
+class Result extends React.Component<IResultProps, {}> {
   public render() {
-    return <></>;
+    console.log(this.props)
+    return <>{this.props.location.search}</>;
   }
 }
 
-export default Result;
+export default withRouter(Result);

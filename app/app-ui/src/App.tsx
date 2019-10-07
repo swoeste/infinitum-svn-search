@@ -11,6 +11,8 @@ import Header from "./components/Header";
 import Result from "./components/Result";
 import Search from "./components/Search";
 import { darkTheme, lightTheme } from "./components/Theme";
+import Cookies from "universal-cookie";
+import Content from "./components/Content";
 
 interface IAppProps {
   searchQuery: string;
@@ -22,13 +24,24 @@ interface IAppState {
 }
 
 class App extends React.Component<{}, IAppState> {
-  public state = {
-    searchQuery: "",
-    useDarkTheme: false,
+  private cookies = new Cookies();
+
+  public constructor(props: {}) {
+    super(props);
+    this.state = {
+      searchQuery: "",
+      useDarkTheme: this.isUseDarkTheme(),
+    };
+  }
+
+  private isUseDarkTheme = (): boolean => {
+    return Boolean(this.cookies.get("use.dark.theme"));
   };
 
   public onToogleTheme = () => {
-    this.setState({ useDarkTheme: !this.state.useDarkTheme });
+    let useDarkTheme: boolean = !this.state.useDarkTheme;
+    this.setState({ useDarkTheme: useDarkTheme });
+    this.cookies.set("use.dark.theme", useDarkTheme);
   };
 
   public getActiveTheme = () => {
@@ -41,12 +54,14 @@ class App extends React.Component<{}, IAppState> {
         <CssBaseline />
         <Container>
           <Header onToogleTheme={this.onToogleTheme} />
-          <Router>
-            <div>
-              <Route path="/search" component={Search} />
-              <Route path="/result" component={Result} />
-            </div>
-          </Router>
+          <Content>
+            <Router>
+              <div>
+                <Route path="/search" component={Search} />
+                <Route path="/result" component={Result} />
+              </div>
+            </Router>
+          </Content>
         </Container>
       </ThemeProvider>
     );
