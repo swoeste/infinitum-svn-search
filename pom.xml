@@ -383,7 +383,7 @@
     <!-- Properties -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.jetty>9.2.28.v20190418</version.jetty>
+        <version.jetty>10.0.10</version.jetty>
         <version.lucene>8.2.0</version.lucene>
         <version.spring>4.3.21.RELEASE</version.spring>
     </properties>
